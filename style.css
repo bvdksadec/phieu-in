@@ -1,0 +1,538 @@
+/* CSS Document for Bệnh Án Cover Page - Bệnh Viện Đa Khoa Sa Đéc */
+
+* {
+    box-sizing: border-box;
+}
+
+.menu-fix {
+    display: flex;
+    justify-content: center;
+}
+
+#print {
+    text-transform: uppercase;
+    padding: 8px 10px;
+    background-color: red;
+    font-weight: 700;
+    font-size: 18px;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 0;
+    }
+
+    html,
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .menu-fix,
+    #menu,
+    .break-page {
+        display: none !important;
+    }
+
+    .page {
+        page-break-after: avoid !important;
+        page-break-before: auto !important;
+        page-break-inside: avoid !important;
+        margin: 0 !important;
+    }
+}
+
+body {
+    font-family: "Times New Roman", "Tinos", Times, serif;
+    font-size: 11pt;
+    line-height: 1.4;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+}
+
+/* Page container */
+.container {
+    width: 21cm;
+    margin: 0 auto;
+    position: relative;
+    background: #fff;
+}
+
+/* Printable A4 sheet dimensions */
+.page {
+    width: 21cm;
+    min-height: 29.7cm;
+    padding: 1cm 1cm 1cm 1.5cm;
+    /* Lề trái rộng hơn phục vụ khâu/đóng gáy bệnh án */
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #a9aaac;
+    /* Hiển thị nhẹ trên màn hình */
+}
+
+/* Decorative inner double border frame */
+.page-inner-border {
+    border: 3px double #000;
+    min-height: calc(29.7cm - 2.4cm);
+    /* Chiều cao trừ đi padding trên/dưới */
+    padding: 1.2cm 0.8cm;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* HEADER STYLE */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1.5px solid #000;
+    padding-bottom: 12px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    width: 65%;
+}
+
+.hospital-logo {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+    margin-right: 15px;
+}
+
+.hospital-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.gov-title {
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #444;
+}
+
+.hospital-name {
+    font-size: 11.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 3px 0;
+    color: #000;
+    letter-spacing: 0.2px;
+}
+
+.hospital-contact {
+    font-size: 9pt;
+    margin: 0;
+    color: #333;
+    line-height: 1.3;
+}
+
+.header-right {
+    width: 33%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Mã bệnh nhân dạng thẻ lưu trữ hành chính */
+.patient-id-card {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: center;
+    width: 5.5cm;
+    background-color: #fafafa;
+}
+
+.card-label {
+    font-size: 8pt;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #333;
+    letter-spacing: 0.8px;
+    margin-bottom: 2px;
+}
+
+.card-value {
+    font-size: 13pt;
+    font-weight: bold;
+    font-family: monospace;
+    letter-spacing: 1px;
+}
+
+/* Giả lập Barcode bằng CSS */
+.barcode-sim {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 20px;
+    margin-top: 6px;
+    opacity: 0.85;
+}
+
+.bar {
+    background-color: #000;
+    height: 100%;
+    margin: 0 1px;
+}
+
+.bar-1 {
+    width: 1px;
+}
+
+.bar-2 {
+    width: 2px;
+}
+
+.bar-3 {
+    width: 3.5px;
+}
+
+.bar-4 {
+    width: 5px;
+}
+
+
+
+/* TITLE SECTION */
+.title-container {
+    text-align: center;
+    margin-top: 1cm;
+    margin-bottom: 1cm;
+}
+
+.main-title {
+    font-size: 38pt;
+    font-weight: bold;
+    margin: 0;
+    letter-spacing: 6px;
+}
+
+.title-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.title-divider::before,
+.title-divider::after {
+    content: "";
+    width: 100px;
+    height: 1px;
+    background-color: #000;
+    margin: 0 15px;
+}
+
+.star-symbol {
+    font-size: 12pt;
+    color: #000;
+}
+
+.title-year {
+    font-size: 15pt;
+    margin: 5px 0 0 0;
+    letter-spacing: 1px;
+}
+
+/* SECTIONS AND FIELDS */
+.form-section {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 12pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 0 0 15px 0;
+    letter-spacing: 0.5px;
+    border-left: 3px solid #000;
+    padding-left: 8px;
+}
+
+/* Hàng thông tin có dòng gạch chấm (dotted line) viết tay */
+.info-row {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+    gap: 0;
+}
+
+.info-field {
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    font-size: 20px;
+}
+
+.flex-grow {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Dòng Họ tên - Năm sinh - Giới tính */
+.info-row.patient-info-row .patient-name {
+    flex: 1;
+    min-width: 0;
+}
+
+.info-row.patient-info-row .patient-year {
+    flex: 0 0 125px;
+    width: 125px;
+}
+
+.info-row.patient-info-row .patient-gender {
+    flex: 0 0 70px;
+    width: 70px;
+    justify-content: flex-end;
+}
+
+.field-label {
+    font-weight: bold;
+    white-space: nowrap;
+    margin-right: 8px;
+}
+
+.field-value {
+    z-index: 2;
+    background-color: #fff;
+    padding-right: 4px;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.field-dots {
+    flex-grow: 1;
+    border-bottom: 1px dotted #000;
+    height: 1px;
+    margin-bottom: 3px;
+}
+
+/* THẺ THEO DÕI QUÁ TRÌNH ĐIỀU TRỊ */
+.tracking-grid {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.tracking-card {
+    border: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+    min-height: 3.5cm;
+    background-color: #fff;
+}
+
+.card-header {
+    background-color: #f2f2f2;
+    border-bottom: 1px solid #000;
+    text-align: center;
+    font-weight: bold;
+    padding: 6px;
+    font-size: 10pt;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.card-body {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 12pt;
+    flex-grow: 1;
+}
+
+.card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px dashed #e2e8f0;
+    padding-bottom: 3px;
+}
+
+.card-row:last-child {
+    border-bottom: none;
+}
+
+.card-row-label {
+    color: #4a5568;
+}
+
+.card-row-val {
+    font-weight: bold;
+    color: #000;
+}
+
+/* HỘP CHẨN ĐOÁN & HỒ SƠ PHIM */
+.diagnosis-imaging-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.diagnosis-box,
+.imaging-box {
+    border: 1px solid #000;
+    min-height: 3.8cm;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+.box-title {
+    background-color: #f2f2f2;
+    border-bottom: 1px solid #000;
+    padding: 6px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 10pt;
+    text-transform: uppercase;
+}
+
+.box-content {
+    padding: 12px;
+    font-size: 12pt;
+    flex-grow: 1;
+}
+
+.font-serif {
+    font-family: "Times New Roman", Times, serif;
+}
+
+.size-14 {
+    font-size: 12pt;
+}
+
+.table-films {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+}
+
+.table-films td {
+    padding: 6px 0;
+    border: none;
+}
+
+.table-films tr:not(:last-child) td {
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* CHỮ KÝ SỐ KÝ CHỐT */
+.ky-chot {
+    width: 5.5cm;
+    position: absolute;
+    right: 1.2cm;
+    bottom: 1.2cm;
+    z-index: 10;
+}
+
+.da-ky-chot {
+    height: 70px;
+    opacity: 0.95;
+}
+
+.nguoi-ky-chot {
+    font-size: 8pt;
+    font-weight: 600;
+    position: absolute;
+    color: #dc3545;
+    /* Màu đỏ chữ ký số chuẩn */
+    top: 72px;
+    left: 10px;
+    z-index: 11;
+}
+
+.ngay-ky-chot {
+    font-size: 8pt;
+    font-weight: 600;
+    position: absolute;
+    color: #dc3545;
+    top: 86px;
+    left: 10px;
+    z-index: 11;
+}
+
+/* Ẩn các phần tử input ẩn của VNPT EMR */
+input[type="hidden"] {
+    display: none;
+}
+
+/* ĐỊNH DẠNG TRANG IN A4 CHUẨN KHI IN */
+@media print {
+    body {
+        background-color: #fff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .container {
+        width: 21cm !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .page {
+        border: none !important;
+        padding: 1.2cm 1.2cm 1.2cm 1.8cm !important;
+        /* Lề khâu gáy bệnh án */
+        page-break-inside: avoid;
+        page-break-after: always;
+        width: 21cm !important;
+        height: 29.7cm !important;
+    }
+
+    .page-inner-border {
+        border: 3px double #000 !important;
+        min-height: calc(29.7cm - 2.4cm) !important;
+        padding: 1.2cm 0.8cm !important;
+    }
+
+    .tracking-card,
+    .diagnosis-box,
+    .imaging-box,
+    .patient-id-card {
+        border: 1px solid #000 !important;
+        background-color: #fff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .card-header,
+    .box-title {
+        background-color: #f2f2f2 !important;
+        border-bottom: 1px solid #000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .ky-chot {
+        position: absolute !important;
+        bottom: 1.2cm !important;
+        right: 1.2cm !important;
+    }
+}
