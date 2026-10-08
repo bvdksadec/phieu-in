@@ -1,0 +1,2172 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hệ Thống Mẫu In Hồ Sơ Bệnh Án - BVĐK Sa Đéc</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* =========================================================
+           1. LAYOUT TỔNG THỂ DẠNG SIDEBAR & PACS BRIDGE THEME
+           ========================================================= */
+        * {
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            overflow: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* ----- TOP HEADER BAR ----- */
+        .app-header {
+            height: 52px;
+            background: linear-gradient(90deg, #0f4c81 0%, #1e40af 100%);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo-badge {
+            width: 34px;
+            height: 34px;
+            background: #ffffff;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .brand-logo-badge svg {
+            width: 22px;
+            height: 22px;
+            fill: #0f4c81;
+        }
+
+        .brand-title {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-weight: 800;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            line-height: 1.1;
+        }
+
+        .brand-sub {
+            font-size: 11px;
+            color: #93c5fd;
+            font-weight: 500;
+        }
+
+        .header-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #e0f2fe;
+        }
+
+        .header-breadcrumb .home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-hospital-info {
+            text-align: right;
+            line-height: 1.25;
+        }
+
+        .user-hospital-info .hosp-name {
+            font-weight: 700;
+            font-size: 13px;
+            display: block;
+            letter-spacing: 0.3px;
+        }
+
+        .user-hospital-info .sys-name {
+            font-size: 11px;
+            color: #bfdbfe;
+        }
+
+        .user-avatar-badge {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        /* ----- MAIN BODY WRAPPER (SIDEBAR + WORKSPACE + RIGHT PANEL) ----- */
+        .app-body {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ----- LEFT SIDEBAR ----- */
+        .app-sidebar {
+            width: 230px;
+            background-color: #ffffff;
+            border-right: 1px solid #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-shrink: 0;
+            z-index: 90;
+        }
+
+        .sidebar-menu {
+            padding: 12px 10px;
+        }
+
+        .sidebar-group-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            padding: 8px 10px 4px 10px;
+            margin-top: 6px;
+        }
+
+        .sidebar-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            margin-bottom: 4px;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            background: transparent;
+            color: #334155;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.15s ease-in-out;
+        }
+
+        .sidebar-item:hover {
+            background-color: #f1f5f9;
+            color: #0f4c81;
+        }
+
+        .sidebar-item.active {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            border-color: #bae6fd;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+        }
+
+        .sidebar-item .item-icon {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+        }
+
+        .sidebar-footer {
+            padding: 12px;
+            border-top: 1px solid #f1f5f9;
+            background-color: #fafafa;
+            font-size: 11px;
+            color: #64748b;
+            text-align: center;
+        }
+
+        /* ----- CENTER WORKSPACE ----- */
+        .app-workspace {
+            flex: 1;
+            background-color: #e2e8f0;
+            overflow-y: auto;
+            padding: 20px 10px 40px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .workspace-paper-wrapper {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+            border-radius: 2px;
+            background: #ffffff;
+            transition: transform 0.2s ease;
+        }
+
+        /* ----- RIGHT ACTION PANEL ----- */
+        .app-right-panel {
+            width: 260px;
+            background-color: #ffffff;
+            border-left: 1px solid #cbd5e1;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+
+        .panel-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .panel-card-header {
+            font-size: 13px;
+            font-weight: 700;
+            color: #0f4c81;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #e2e8f0;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-action-primary {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 14px;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(2, 132, 199, 0.3);
+            transition: all 0.2s ease;
+            margin-bottom: 8px;
+        }
+
+        .btn-action-primary:hover {
+            background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+            box-shadow: 0 4px 8px rgba(2, 132, 199, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-action-secondary {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: #ffffff;
+            color: #475569;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action-secondary:hover {
+            background: #f8fafc;
+            color: #0f172a;
+            border-color: #94a3b8;
+        }
+
+        /* Danh sách trạng thái xử lý */
+        .status-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .status-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px dotted #f1f5f9;
+        }
+
+        .status-step:last-child {
+            border-bottom: none;
+        }
+
+        .step-badge {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .status-step.completed .step-badge {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-step.active .step-badge {
+            background: #0284c7;
+            color: #ffffff;
+        }
+
+        .step-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .step-title {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .step-detail {
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        /* =========================================================
+           2. TÙY CHỈNH STYLES CHO CÁC FORM IN (BÌA & CAM KẾT)
+           ========================================================= */
+
+        /* Bắt buộc toàn bộ Bìa bệnh án và Giấy cam kết sử dụng Font Times New Roman chuẩn y tế */
+        #form-bia,
+        #form-camket,
+        .container,
+        .camket-page,
+        #form-bia *,
+        #form-camket * {
+            font-family: "Times New Roman", "Tinos", Times, serif !important;
+        }
+
+        /* Override style.css flex width cho patient-gender */
+        .info-row.patient-info-row .patient-gender {
+            flex: 0 0 auto !important;
+            width: auto !important;
+            justify-content: flex-end;
+        }
+
+        /* Định dạng ô nhập dữ liệu */
+        .editable-input {
+            border: none;
+            border-bottom: 1px dotted #94a3b8;
+            background: transparent;
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            color: #0f172a;
+            outline: none;
+            padding: 2px 4px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .editable-input:hover {
+            background-color: #f1f5f9;
+            border-bottom-color: #3b82f6;
+        }
+
+        .editable-input:focus {
+            background-color: #eff6ff;
+            border-bottom: 1.5px solid #2563eb;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Định dạng ô chọn Dropdown (Nam / Nữ) */
+        .editable-select {
+            border: none;
+            border-bottom: 1px dotted #94a3b8;
+            background: transparent;
+            font-family: inherit;
+            font-size: 20px;
+            font-weight: bold;
+            color: #0f172a;
+            outline: none;
+            padding: 2px 4px;
+            cursor: pointer;
+            text-align: center;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .editable-select:hover {
+            background-color: #f1f5f9;
+            border-bottom-color: #3b82f6;
+        }
+
+        .editable-select:focus {
+            background-color: #eff6ff;
+            border-bottom: 1.5px solid #2563eb;
+        }
+
+        /* Ô chọn ngày hỗ trợ gõ trực tiếp hoặc mở Lịch Popup */
+        .date-input-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            position: relative;
+        }
+
+        .btn-calendar-trigger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 0 2px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .btn-calendar-trigger:hover {
+            opacity: 1;
+        }
+
+        .date-picker-hidden {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+            height: 0;
+        }
+
+        /* Nút chọn nhanh danh sách Khoa */
+        .quick-khoa-select {
+            font-size: 11px;
+            padding: 2px 6px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            background-color: #f8fafc;
+            color: #334155;
+            cursor: pointer;
+            margin-bottom: 3px;
+            outline: none;
+            transition: all 0.2s;
+            width: 100%;
+            text-align: left;
+        }
+
+        .quick-khoa-select:hover {
+            background-color: #f1f5f9;
+            border-color: #3b82f6;
+            color: #2563eb;
+        }
+
+        /* Textarea tự động co giãn theo số dòng nội dung */
+        .auto-resize-textarea {
+            border: none;
+            border-bottom: 1px dotted #94a3b8;
+            background: transparent;
+            font-family: inherit;
+            font-size: 11.5pt;
+            color: #0f172a;
+            width: 100%;
+            outline: none;
+            padding: 0 4px;
+            resize: none;
+            overflow: hidden;
+            height: auto;
+            min-height: 1.3em;
+            line-height: 1.35;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .auto-resize-textarea:hover {
+            background-color: #f1f5f9;
+            border-bottom-color: #3b82f6;
+        }
+
+        .auto-resize-textarea:focus {
+            background-color: #eff6ff;
+            border-bottom: 1.5px solid #2563eb;
+        }
+
+        /* Dòng hiển thị nhãn và ô nhập chung trên 1 hàng */
+        .camket-inline-field {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 6px;
+        }
+
+        .camket-inline-field .auto-resize-textarea {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* Span nhập liệu nội dung tự động quay về đầu hàng khi xuống dòng 2 */
+        .editable-content-span {
+            outline: none;
+            border-bottom: 1px dotted #94a3b8;
+            padding: 0 4px;
+            display: inline;
+            word-break: break-all;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .editable-content-span:hover {
+            background-color: #f1f5f9;
+            border-bottom-color: #3b82f6;
+        }
+
+        .editable-content-span:focus {
+            background-color: #eff6ff;
+            border-bottom: 1.5px solid #2563eb;
+        }
+
+        .editable-content-span:empty::before {
+            content: attr(data-placeholder);
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        /* Ô nhập khoa 2 hàng */
+        .editable-textarea-short {
+            border: none;
+            border-bottom: 1px dotted #94a3b8;
+            background: transparent;
+            font-family: inherit;
+            font-size: 11pt;
+            font-weight: bold;
+            color: #0f172a;
+            width: 100%;
+            outline: none;
+            padding: 2px 4px;
+            resize: none;
+            overflow: hidden;
+            line-height: 1.35;
+            height: 2.8em;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .editable-textarea-short:hover {
+            background-color: #f1f5f9;
+            border-bottom-color: #3b82f6;
+        }
+
+        .editable-textarea-short:focus {
+            background-color: #eff6ff;
+            border-bottom: 1.5px solid #2563eb;
+        }
+
+        .editable-textarea {
+            border: 1px dotted #94a3b8;
+            background: transparent;
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            color: #0f172a;
+            width: 100%;
+            min-height: 2cm;
+            outline: none;
+            padding: 6px;
+            resize: vertical;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .editable-textarea:hover {
+            background-color: #f1f5f9;
+            border-color: #3b82f6;
+        }
+
+        .editable-textarea:focus {
+            background-color: #eff6ff;
+            border: 1.5px solid #2563eb;
+        }
+
+        /* Thẻ Mã Bệnh Án */
+        .patient-id-card {
+            border: 1px solid #000;
+            padding: 4px 6px;
+            text-align: center;
+            width: 5.2cm;
+            background-color: #fafafa;
+        }
+
+        .patient-id-card .card-label {
+            font-size: 8pt;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #333;
+            letter-spacing: 0.8px;
+            margin-bottom: 2px;
+        }
+
+        .patient-id-card .editable-input {
+            text-align: center;
+            font-family: monospace;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 1px 0;
+            margin: 0;
+        }
+
+        .barcode-container {
+            margin-top: 2px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #barcode {
+            display: none;
+            max-width: 100%;
+        }
+
+        .patient-name-input {
+            font-size: 22px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .patient-year-input,
+        .patient-gender-input {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* CSS DÀNH RIÊNG CHO FORM GIẤY CAM KẾT TỪ CHỐI KCB GỌN GÀNG */
+        .camket-page {
+            width: 21cm;
+            min-height: 29.7cm;
+            padding: 1cm 1.5cm 1cm 2cm;
+            background-color: #fff;
+            margin: 0 auto;
+            font-family: "Times New Roman", "Tinos", Times, serif;
+            font-size: 11pt;
+            line-height: 1.35;
+            color: #000;
+            border: 1px solid #a9aaac;
+            position: relative;
+        }
+
+        #form-ravien .camket-page {
+            padding: 0.6cm 1.2cm 0.6cm 1.5cm;
+        }
+
+        #form-ravien .camket-row {
+            margin-bottom: 3px;
+        }
+
+        #form-ravien p {
+            margin-top: 2px;
+            margin-bottom: 3px;
+            line-height: 1.3;
+        }
+
+        .page-badge {
+            position: absolute;
+            top: 6px;
+            right: 15px;
+            font-family: 'Inter', sans-serif;
+            font-size: 8pt;
+            font-weight: 700;
+            color: #94a3b8;
+            letter-spacing: 0.5px;
+        }
+
+        .camket-header {
+            display: grid;
+            grid-template-columns: 1.2fr 1.5fr 0.5fr;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .camket-header-left {
+            font-size: 10.5pt;
+            line-height: 1.25;
+        }
+
+        .camket-header-center {
+            text-align: center;
+            font-size: 10.5pt;
+            line-height: 1.25;
+        }
+
+        .camket-header-right {
+            text-align: right;
+            font-size: 10.5pt;
+            font-weight: bold;
+        }
+
+        .camket-title-box {
+            text-align: center;
+            margin: 8px 0 15px 0;
+        }
+
+        .camket-title {
+            font-size: 15pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.25;
+            margin: 0;
+        }
+
+        .camket-section-title {
+            font-size: 11.5pt;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 4px;
+        }
+
+        .camket-row {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 5px;
+        }
+
+        .checkbox-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: 10px;
+        }
+
+        .checkbox-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+
+        .camket-sig-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        .camket-sig-box {
+            text-align: center;
+            width: 7cm;
+        }
+
+        /* =========================================================
+           3. CẤU HÌNH IN ĐẶC BIỆT (@MEDIA PRINT)
+           ========================================================= */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+
+            body,
+            html {
+                background: #ffffff !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 21cm !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+
+            /* Ẩn hoàn toàn Thanh Header, Sidebar, Panel thao tác bên phải */
+            .app-header,
+            .app-sidebar,
+            .app-right-panel {
+                display: none !important;
+            }
+
+            .app-container,
+            .app-body,
+            .app-workspace,
+            .workspace-paper-wrapper {
+                display: block !important;
+                position: static !important;
+                width: 21cm !important;
+                height: auto !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                overflow: visible !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+
+            .container {
+                border: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 21cm !important;
+                box-shadow: none !important;
+            }
+
+            .page {
+                border: none !important;
+                padding: 1.2cm 1.2cm 1.2cm 1.8cm !important;
+                width: 21cm !important;
+                height: 29.7cm !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                page-break-after: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
+            .camket-page {
+                border: none !important;
+                padding: 1cm 1.5cm 1cm 2cm !important;
+                width: 21cm !important;
+                min-height: 29.7cm !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                page-break-inside: avoid !important;
+            }
+
+            .camket-page+.camket-page {
+                page-break-before: always !important;
+                margin-top: 0 !important;
+            }
+
+            #form-ravien .camket-page {
+                padding: 0.6cm 1.2cm 0.6cm 1.5cm !important;
+            }
+
+            .page-badge {
+                display: none !important;
+            }
+
+            .editable-input {
+                border-bottom: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+            }
+
+            .editable-select {
+                border-bottom: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                appearance: none !important;
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+            }
+
+            .btn-calendar-trigger,
+            .date-picker-hidden,
+            .quick-khoa-select {
+                display: none !important;
+            }
+
+            .editable-textarea-short,
+            .editable-textarea,
+            .auto-resize-textarea,
+            .editable-content-span {
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                resize: none !important;
+            }
+
+            .editable-content-span:empty::before {
+                content: "" !important;
+            }
+
+            ::placeholder {
+                color: transparent !important;
+            }
+
+            .patient-id-card {
+                border: 1px solid #000 !important;
+                background-color: #fff !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- THANH TOP HEADER (STYLE PACS BRIDGE) -->
+        <header class="app-header">
+            <div class="header-brand">
+                <div class="brand-logo-badge">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M19 10.5h-5.5V5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v5.5H5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h5.5V19c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-5.5H19c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5z" />
+                    </svg>
+                </div>
+                <div class="brand-title">
+                    <span class="brand-name">BVĐK SA ĐÉC</span>
+                    <span class="brand-sub">Hệ thống In Hồ Sơ Bệnh Án</span>
+                </div>
+            </div>
+
+            <div class="header-breadcrumb">
+                <a href="#" class="home-btn">
+                    <span>🏠</span> Trang chủ
+                </a>
+                <span>›</span>
+                <span id="current-form-breadcrumb" style="font-weight: 600;">Tạo Bìa Bệnh Án</span>
+            </div>
+
+            <div class="header-user">
+                <div class="user-hospital-info">
+                    <span class="hosp-name">BỆNH VIỆN ĐA KHOA SA ĐÉC</span>
+                    <span class="sys-name">Quản lý Mẫu in Hồ sơ &nbsp;|&nbsp; <strong>© Quoc IT</strong></span>
+                </div>
+                <div class="user-avatar-badge" title="Tài khoản hệ thống">
+                    👤
+                </div>
+            </div>
+        </header>
+
+        <!-- THÂN GIAO DIỆN CHÍNH -->
+        <div class="app-body">
+
+            <!-- SIDEBAR BÊN TRÁI -->
+            <aside class="app-sidebar">
+                <div class="sidebar-menu">
+                    <div class="sidebar-group-title">DANH MỤC MẪU PHIẾU</div>
+
+                    <button class="sidebar-item active" id="nav-bia" onclick="switchForm('bia')">
+                        <span class="item-icon">📋</span>
+                        <span class="item-text">Tạo Bìa Bệnh Án</span>
+                    </button>
+
+                    <button class="sidebar-item" id="nav-camket" onclick="switchForm('camket')">
+                        <span class="item-icon">📄</span>
+                        <span class="item-text">Cam Kết Từ Chối KCB</span>
+                    </button>
+
+                    <button class="sidebar-item" id="nav-chuyenvien" onclick="switchForm('chuyenvien')">
+                        <span class="item-icon">🚑</span>
+                        <span class="item-text">Cam Kết Chuyển Viện</span>
+                    </button>
+
+                    <button class="sidebar-item" id="nav-ravien" onclick="switchForm('ravien')">
+                        <span class="item-icon">📜</span>
+                        <span class="item-text">Cam Kết Ra Viện Không Theo Chỉ Định</span>
+                    </button>
+
+
+                </div>
+
+                <div class="sidebar-footer">
+                    <strong>BỆNH VIỆN ĐA KHOA SA ĐÉC</strong><br>
+                    <span>Hệ thống Mẫu in v2.5</span><br>
+                    <span style="color: #3b82f6; font-weight: 600; margin-top: 3px; display: block;">© Quoc IT</span>
+                </div>
+            </aside>
+
+            <!-- VÙNG HIỂN THỊ TỜ PHIẾU IN TRUNG TÂM -->
+            <main class="app-workspace">
+                <div class="workspace-paper-wrapper">
+
+                    <!-- MẪU 1: BÌA BỆNH ÁN -->
+                    <div id="form-bia" class="container">
+                        <div class="page">
+                            <div class="page-inner-border">
+
+                                <!-- HEADER - THÔNG TIN BỆNH VIỆN -->
+                                <div class="header-container">
+                                    <div class="header-left">
+                                        <img class="hospital-logo"
+                                            src="https://bvdongthap.vncare.vn/vnpthis/common/img/logo_95202.png"
+                                            alt="Logo">
+                                        <div class="hospital-info">
+                                            <span class="gov-title">SỞ Y TẾ TỈNH ĐỒNG THÁP</span>
+                                            <h2 class="hospital-name">BỆNH VIỆN ĐA KHOA SA ĐÉC</h2>
+                                            <p class="hospital-contact">
+                                                <strong>ĐC:</strong> 153 Nguyễn Sinh Sắc, P. Sa Đéc, Đồng Tháp<br>
+                                                <strong>ĐT:</strong> 0277 3861 919 &nbsp;|&nbsp;
+                                                <strong>Website:</strong> bvdksadec.vn
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="header-right">
+                                        <div class="patient-id-card">
+                                            <div class="card-label">MÃ BỆNH ÁN</div>
+                                            <input type="text" id="input-ma-ba" class="editable-input"
+                                                placeholder="Nhập mã BA..." oninput="updateBarcode()"
+                                                style="width: 100%;">
+                                            <div class="barcode-container">
+                                                <svg id="barcode"></svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- TIÊU ĐỀ HỒ SƠ -->
+                                <div class="title-container">
+                                    <h1 class="main-title">BỆNH ÁN</h1>
+                                    <div class="title-divider">
+                                        <span class="star-symbol">✦</span>
+                                    </div>
+                                    <p class="title-year">
+                                        NĂM: <input type="text" id="input-nam" class="editable-input"
+                                            style="width: 80px; text-align: center; font-size: 16px; font-weight: bold;"
+                                            placeholder="2026">
+                                    </p>
+                                </div>
+
+                                <!-- PHẦN I: THÔNG TIN HÀNH CHÍNH -->
+                                <div class="form-section">
+                                    <h3 class="section-title">I. HÀNH CHÍNH</h3>
+
+                                    <!-- Họ tên - Năm sinh - Giới tính -->
+                                    <div class="info-row patient-info-row">
+                                        <div class="info-field patient-name" style="flex: 1;">
+                                            <span class="field-label" style="font-size: 20px;">Họ và tên:</span>
+                                            <input type="text" id="input-ho-ten"
+                                                class="editable-input patient-name-input"
+                                                placeholder="NHẬP HỌ VÀ TÊN BỆNH NHÂN" style="flex: 1;">
+                                        </div>
+
+                                        <div class="info-field patient-gender"
+                                            style="font-size: 20px; display: flex; align-items: flex-end; gap: 4px; white-space: nowrap;">
+                                            <input type="text" id="input-nam-sinh"
+                                                class="editable-input patient-year-input" placeholder="Năm sinh"
+                                                style="width: 85px;">
+                                            <span class="bold">-</span>
+                                            <select id="input-gioi-tinh" class="editable-select patient-gender-input"
+                                                style="width: 85px;">
+                                                <option value="">Nam/Nữ</option>
+                                                <option value="Nam">Nam</option>
+                                                <option value="Nữ">Nữ</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- CCCD - BHYT -->
+                                    <div class="info-row" style="margin-top: 8px;">
+                                        <div class="info-field" style="width: 50%;">
+                                            <span class="field-label">Số CCCD:</span>
+                                            <input type="text" id="input-cccd" class="editable-input"
+                                                placeholder="Số căn cước công dân..." style="flex: 1;">
+                                        </div>
+
+                                        <div class="info-field" style="width: 50%; padding-left: 15px;">
+                                            <span class="field-label">Số thẻ BHYT:</span>
+                                            <input type="text" id="input-bhyt" class="editable-input"
+                                                placeholder="Mã số thẻ BHYT..." style="flex: 1;">
+                                        </div>
+                                    </div>
+
+                                    <!-- Địa chỉ -->
+                                    <div class="info-row" style="margin-top: 8px;">
+                                        <div class="info-field" style="width: 100%;">
+                                            <span class="field-label">Địa chỉ:</span>
+                                            <input type="text" id="input-dia-chi" class="editable-input"
+                                                placeholder="Địa chỉ thường trú / liên hệ..." style="flex: 1;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- PHẦN II: QUÁ TRÌNH ĐIỀU TRỊ -->
+                                <div class="form-section" style="margin-top: 0.8cm;">
+                                    <h3 class="section-title">II. QUÁ TRÌNH ĐIỀU TRỊ</h3>
+
+                                    <div class="tracking-grid">
+                                        <!-- Nhập viện -->
+                                        <div class="tracking-card">
+                                            <div class="card-header">NHẬP VIỆN</div>
+                                            <div class="card-body">
+                                                <div class="card-row"
+                                                    style="flex-direction: column; align-items: stretch;">
+                                                    <select class="quick-khoa-select"
+                                                        onchange="applyKhoa(this, 'input-khoa-vao')">
+                                                        <option value="">-- Chọn Khoa từ danh sách --</option>
+                                                        <option value="KHOA HỒI SỨC CẤP CỨU">KHOA HỒI SỨC CẤP CỨU
+                                                        </option>
+                                                        <option value="KHOA HỒI SỨC TÍCH CỰC - CHỐNG ĐỘC">KHOA HỒI SỨC
+                                                            TÍCH CỰC - CHỐNG ĐỘC</option>
+                                                        <option value="KHOA KHÁM BỆNH">KHOA KHÁM BỆNH</option>
+                                                        <option value="KHOA KIỂM SOÁT NHIỄM KHUẨN">KHOA KIỂM SOÁT NHIỄM
+                                                            KHUẨN</option>
+                                                        <option value="KHOA LIÊN CHUYÊN KHOA">KHOA LIÊN CHUYÊN KHOA
+                                                        </option>
+                                                        <option value="KHOA NGOẠI THẦN KINH-CHẤN THƯƠNG CHỈNH HÌNH">KHOA
+                                                            NGOẠI THẦN KINH-CHẤN THƯƠNG CHỈNH HÌNH</option>
+                                                        <option value="KHOA NGOẠI TỔNG HỢP">KHOA NGOẠI TỔNG HỢP</option>
+                                                        <option value="KHOA NHI">KHOA NHI</option>
+                                                        <option value="KHOA NỘI TIM MẠCH-LÃO HỌC">KHOA NỘI TIM MẠCH-LÃO
+                                                            HỌC</option>
+                                                        <option value="KHOA NỘI TỔNG HỢP">KHOA NỘI TỔNG HỢP</option>
+                                                        <option value="KHOA PHỤ SẢN">KHOA PHỤ SẢN</option>
+                                                        <option value="KHOA PHẪU THUẬT- GÂY MÊ HỒI SỨC">KHOA PHẪU THUẬT-
+                                                            GÂY MÊ HỒI SỨC</option>
+                                                        <option value="KHOA TRUYỀN NHIỄM">KHOA TRUYỀN NHIỄM</option>
+                                                        <option value="KHOA Y HỌC CỔ TRUYỀN - PHỤC HỒI CHỨC NĂNG">KHOA Y
+                                                            HỌC CỔ TRUYỀN - PHỤC HỒI CHỨC NĂNG</option>
+                                                    </select>
+                                                    <textarea id="input-khoa-vao" class="editable-textarea-short bold"
+                                                        placeholder="Chọn hoặc nhập tên khoa nhập viện..."
+                                                        rows="2"></textarea>
+                                                </div>
+                                                <div class="card-row">
+                                                    <span class="card-row-label">Ngày vào viện:</span>
+                                                    <div class="date-input-group">
+                                                        <input type="text" id="input-ngay-vao"
+                                                            class="editable-input bold text-right"
+                                                            placeholder="dd/mm/yyyy" style="width: 100px;">
+                                                        <button type="button" class="btn-calendar-trigger"
+                                                            onclick="openDatePicker('picker-ngay-vao')"
+                                                            title="Chọn ngày từ lịch">📅</button>
+                                                        <input type="date" id="picker-ngay-vao"
+                                                            class="date-picker-hidden"
+                                                            onchange="applyDate(this, 'input-ngay-vao')">
+                                                    </div>
+                                                </div>
+                                                <div class="card-row">
+                                                    <span class="card-row-label">Giường bệnh:</span>
+                                                    <input type="text" id="input-giuong-vao"
+                                                        class="editable-input bold text-right"
+                                                        placeholder="Số giường..." style="width: 100px;">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Xuất viện -->
+                                        <div class="tracking-card">
+                                            <div class="card-header">XUẤT VIỆN</div>
+                                            <div class="card-body">
+                                                <div class="card-row"
+                                                    style="flex-direction: column; align-items: stretch;">
+                                                    <select class="quick-khoa-select"
+                                                        onchange="applyKhoa(this, 'input-khoa-ra')">
+                                                        <option value="">-- Chọn Khoa từ danh sách --</option>
+                                                        <option value="KHOA HỒI SỨC CẤP CỨU">KHOA HỒI SỨC CẤP CỨU
+                                                        </option>
+                                                        <option value="KHOA HỒI SỨC TÍCH CỰC - CHỐNG ĐỘC">KHOA HỒI SỨC
+                                                            TÍCH CỰC - CHỐNG ĐỘC</option>
+                                                        <option value="KHOA KHÁM BỆNH">KHOA KHÁM BỆNH</option>
+                                                        <option value="KHOA KIỂM SOÁT NHIỄM KHUẨN">KHOA KIỂM SOÁT NHIỄM
+                                                            KHUẨN</option>
+                                                        <option value="KHOA LIÊN CHUYÊN KHOA">KHOA LIÊN CHUYÊN KHOA
+                                                        </option>
+                                                        <option value="KHOA NGOẠI THẦN KINH-CHẤN THƯƠNG CHỈNH HÌNH">KHOA
+                                                            NGOẠI THẦN KINH-CHẤN THƯƠNG CHỈNH HÌNH</option>
+                                                        <option value="KHOA NGOẠI TỔNG HỢP">KHOA NGOẠI TỔNG HỢP</option>
+                                                        <option value="KHOA NHI">KHOA NHI</option>
+                                                        <option value="KHOA NỘI TIM MẠCH-LÃO HỌC">KHOA NỘI TIM MẠCH-LÃO
+                                                            HỌC</option>
+                                                        <option value="KHOA NỘI TỔNG HỢP">KHOA NỘI TỔNG HỢP</option>
+                                                        <option value="KHOA PHỤ SẢN">KHOA PHỤ SẢN</option>
+                                                        <option value="KHOA PHẪU THUẬT- GÂY MÊ HỒI SỨC">KHOA PHẪU THUẬT-
+                                                            GÂY MÊ HỒI SỨC</option>
+                                                        <option value="KHOA TRUYỀN NHIỄM">KHOA TRUYỀN NHIỄM</option>
+                                                        <option value="KHOA Y HỌC CỔ TRUYỀN - PHỤC HỒI CHỨC NĂNG">KHOA Y
+                                                            HỌC CỔ TRUYỀN - PHỤC HỒI CHỨC NĂNG</option>
+                                                    </select>
+                                                    <textarea id="input-khoa-ra" class="editable-textarea-short bold"
+                                                        placeholder="Chọn hoặc nhập tên khoa xuất viện..."
+                                                        rows="2"></textarea>
+                                                </div>
+                                                <div class="card-row">
+                                                    <span class="card-row-label">Ngày xuất viện:</span>
+                                                    <div class="date-input-group">
+                                                        <input type="text" id="input-ngay-ra"
+                                                            class="editable-input bold text-right"
+                                                            placeholder="dd/mm/yyyy" style="width: 100px;">
+                                                        <button type="button" class="btn-calendar-trigger"
+                                                            onclick="openDatePicker('picker-ngay-ra')"
+                                                            title="Chọn ngày từ lịch">📅</button>
+                                                        <input type="date" id="picker-ngay-ra"
+                                                            class="date-picker-hidden"
+                                                            onchange="applyDate(this, 'input-ngay-ra')">
+                                                    </div>
+                                                </div>
+                                                <div class="card-row">
+                                                    <span class="card-row-label">Giường bệnh:</span>
+                                                    <input type="text" id="input-giuong-ra"
+                                                        class="editable-input bold text-right"
+                                                        placeholder="Số giường..." style="width: 100px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- PHẦN III: CHẨN ĐOÁN & HÌNH ẢNH -->
+                                <div class="form-section" style="margin-top: 0.8cm;">
+                                    <div class="diagnosis-imaging-container">
+                                        <!-- Chẩn đoán bệnh -->
+                                        <div class="diagnosis-box">
+                                            <div class="box-title">CHẨN ĐOÁN (MÃ BỆNH)</div>
+                                            <div class="box-content font-serif size-14">
+                                                <textarea id="input-chan-doan" class="editable-textarea"
+                                                    placeholder="Nhập chẩn đoán bệnh chính, bệnh kèm theo..."></textarea>
+                                            </div>
+                                        </div>
+
+                                        <!-- Thống kê phim X-Quang / CT -->
+                                        <div class="imaging-box">
+                                            <div class="box-title">HỒ SƠ PHIM X-QUANG & CT</div>
+                                            <div class="box-content">
+                                                <table class="table-films">
+                                                    <tr>
+                                                        <td>Số phim thường:</td>
+                                                        <td class="text-right" style="width: 70px;">
+                                                            <input type="text" id="input-phim-thuong"
+                                                                class="editable-input bold text-right" placeholder="0">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Số phim CT:</td>
+                                                        <td class="text-right" style="width: 70px;">
+                                                            <input type="text" id="input-phim-ct"
+                                                                class="editable-input bold text-right" placeholder="0">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Số phim khác:</td>
+                                                        <td class="text-right" style="width: 70px;">
+                                                            <input type="text" id="input-phim-khac"
+                                                                class="editable-input bold text-right" placeholder="0">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MẪU 2: GIẤY CAM KẾT TỪ CHỐI SỬ DỤNG DỊCH VỤ KCB -->
+                    <div id="form-camket" class="container" style="display: none;">
+                        <div class="camket-page">
+                            <!-- HEADER -->
+                            <div class="camket-header">
+                                <div class="camket-header-left">
+                                    SỞ Y TẾ TỈNH ĐỒNG THÁP<br>
+                                    <strong>BỆNH VIỆN ĐA KHOA SA ĐÉC</strong>
+                                </div>
+                                <div class="camket-header-center">
+                                    <strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong><br>
+                                    <span style="text-decoration: underline; font-weight: bold;">Độc lập - Tự do - Hạnh
+                                        phúc</span>
+                                </div>
+                                <div class="camket-header-right">
+                                    MS: 41/BV2
+                                </div>
+                            </div>
+
+                            <!-- TIÊU ĐỀ -->
+                            <div class="camket-title-box">
+                                <h2 class="camket-title">GIẤY CAM KẾT TỪ CHỐI SỬ DỤNG DỊCH VỤ<br>KHÁM BỆNH,CHỮA BỆNH
+                                </h2>
+                            </div>
+
+                            <!-- I. THÔNG TIN CÁ NHÂN CỦA NGƯỜI KÝ -->
+                            <div class="camket-section-title">I.THÔNG TIN CÁ NHÂN CỦA NGƯỜI KÝ</div>
+
+                            <div class="camket-row">
+                                <span>Tôi tên là:</span>
+                                <input type="text" id="ck-ho-ten" class="editable-input bold"
+                                    placeholder="Nhập họ tên..." style="width: 220px;"
+                                    oninput="syncSignerName(this.value)">
+                                <span style="margin-left: 8px;">Ngày sinh:</span>
+                                <div class="date-input-group">
+                                    <input type="text" id="ck-ngay-sinh" class="editable-input" placeholder="dd/mm/yyyy"
+                                        style="width: 90px;">
+                                    <button type="button" class="btn-calendar-trigger"
+                                        onclick="openDatePicker('picker-ck-ngay-sinh')">📅</button>
+                                    <input type="date" id="picker-ck-ngay-sinh" class="date-picker-hidden"
+                                        onchange="applyDate(this, 'ck-ngay-sinh')">
+                                </div>
+
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="ck-gioi-tinh-nam"
+                                            onchange="if(this.checked) document.getElementById('ck-gioi-tinh-nu').checked = false;">
+                                        Nam
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="ck-gioi-tinh-nu"
+                                            onchange="if(this.checked) document.getElementById('ck-gioi-tinh-nam').checked = false;">
+                                        Nữ
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="camket-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="ck-la-nguoi-benh"
+                                        onchange="if(this.checked) document.getElementById('ck-la-than-nhan').checked = false;">
+                                    là người bệnh
+                                </label>
+                            </div>
+
+                            <div class="camket-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="ck-la-than-nhan"
+                                        onchange="if(this.checked) document.getElementById('ck-la-nguoi-benh').checked = false;">
+                                    là
+                                </label>
+                                <input type="text" id="ck-moi-quan-he" class="editable-input"
+                                    placeholder="Mối quan hệ..." style="width: 120px;">
+                                <span>của người bệnh:</span>
+                                <input type="text" id="ck-ten-nguoi-benh-duoc-kcb" class="editable-input bold"
+                                    placeholder="Họ tên người bệnh..." style="width: 180px;">
+                                <span style="margin-left: 6px;">Ngày sinh:</span>
+                                <div class="date-input-group">
+                                    <input type="text" id="ck-ngay-sinh-nguoi-benh" class="editable-input"
+                                        placeholder="dd/mm/yyyy" style="width: 90px;">
+                                    <button type="button" class="btn-calendar-trigger"
+                                        onclick="openDatePicker('picker-ck-ns-nb')">📅</button>
+                                    <input type="date" id="picker-ck-ns-nb" class="date-picker-hidden"
+                                        onchange="applyDate(this, 'ck-ngay-sinh-nguoi-benh')">
+                                </div>
+                            </div>
+
+                            <div class="camket-row" style="margin-top: 4px; align-items: center;">
+                                <span style="white-space: nowrap;">Đang điều trị tại khoa:</span>
+                                <select class="quick-khoa-select" onchange="applyKhoa(this, 'ck-khoa')"
+                                    style="width: 180px; display: inline-block;">
+                                    <option value="">-- Chọn Khoa từ danh sách --</option>
+                                    <option value="KHOA HỒI SỨC CẤP CỨU">KHOA HỒI SỨC CẤP CỨU</option>
+                                    <option value="KHOA HỒI SỨC TÍCH CỰC - CHỐNG ĐỘC">KHOA HỒI SỨC TÍCH CỰC - CHỐNG ĐỘC
+                                    </option>
+                                    <option value="KHOA KHÁM BỆNH">KHOA KHÁM BỆNH</option>
+                                    <option value="KHOA KIỂM SOÁT NHIỄM KHUẨN">KHOA KIỂM SOÁT NHIỄM KHUẨN</option>
+                                    <option value="KHOA LIÊN CHUYÊN KHOA">KHOA LIÊN CHUYÊN KHOA</option>
+                                    <option value="KHOA NGOẠI THẦN KINH-CHẤN THƯƠNG CHỈNH HÌNH">KHOA NGOẠI THẦN
+                                        KINH-CHẤN THƯƠNG CHỈNH HÌNH</option>
+                                    <option value="KHOA NGOẠI TỔNG HỢP">KHOA NGOẠI TỔNG HỢP</option>
+                                    <option value="KHOA NHI">KHOA NHI</option>
+                                    <option value="KHOA NỘI TIM MẠCH-LÃO HỌC">KHOA NỘI TIM MẠCH-LÃO HỌC</option>
+                                    <option value="KHOA NỘI TỔNG HỢP">KHOA NỘI TỔNG HỢP</option>
+                                    <option value="KHOA PHỤ SẢN">KHOA PHỤ SẢN</option>
+                                    <option value="KHOA PHẪU THUẬT- GÂY MÊ HỒI SỨC">KHOA PHẪU THUẬT- GÂY MÊ HỒI SỨC
+                                    </option>
+                                    <option value="KHOA TRUYỀN NHIỄM">KHOA TRUYỀN NHIỄM</option>
+                                    <option value="KHOA Y HỌC CỔ TRUYỀN - PHỤC HỒI CHỨC NĂNG">KHOA Y HỌC CỔ TRUYỀN -
+                                        PHỤC HỒI CHỨC NĂNG</option>
+                                </select>
+                                <input type="text" id="ck-khoa" class="editable-input bold"
+                                    placeholder="Chọn hoặc nhập tên khoa..." style="flex: 1;">
+                                <span style="margin-left: 8px; white-space: nowrap;">Phòng:</span>
+                                <input type="text" id="ck-phong" class="editable-input" placeholder="Phòng..."
+                                    style="width: 70px;">
+                                <span style="margin-left: 8px; line-height: 1.6; white-space: nowrap;">Giường:</span>
+                                <input type="text" id="ck-giuong" class="editable-input" placeholder="Giường..."
+                                    style="width: 70px;">
+                            </div>
+
+                            <!-- II. NỘI DUNG -->
+                            <div class="camket-section-title">II.NỘI DUNG</div>
+
+                            <div style="margin-bottom: 6px; text-align: left; line-height: 1.4;">
+                                <span>Phương pháp điều trị/chỉ định dự kiến thực hiện: </span>
+                                <span contenteditable="true" id="ck-phuong-phap" class="editable-content-span"
+                                    data-placeholder="Nhập phương pháp điều trị dự kiến..."></span>
+                            </div>
+
+                            <p style="margin-top: 6px; margin-bottom: 6px; text-align: justify;">
+                                Tôi đã được giải thích về lợi ích của phương pháp điều trị dự kiến, những nguy cơ, đặc
+                                biệt là những rủi ro, biến chứng có thể xảy ra nếu từ chối điều trị hoặc sử dụng dịch vụ
+                                khám bệnh, chữa bệnh nêu trên.
+                            </p>
+
+                            <div class="camket-row" style="text-align: justify; margin-bottom: 6px;">
+                                <span>Tôi xác nhận việc từ chối điều trị hoặc sử dụng dịch vụ y tế trên vào lúc</span>
+                                <input type="text" id="ck-gio" class="editable-input text-center bold"
+                                    style="width: 30px;" placeholder="06">
+                                <span>giờ</span>
+                                <input type="text" id="ck-phut" class="editable-input text-center bold"
+                                    style="width: 30px;" placeholder="41">
+                                <span>phút, ngày</span>
+                                <input type="text" id="ck-ngay" class="editable-input text-center bold"
+                                    style="width: 30px;" placeholder="08">
+                                <span>tháng</span>
+                                <input type="text" id="ck-thang" class="editable-input text-center bold"
+                                    style="width: 30px;" placeholder="10">
+                                <span>năm</span>
+                                <input type="text" id="ck-nam" class="editable-input text-center bold"
+                                    style="width: 50px;" placeholder="2026">
+                            </div>
+
+                            <!-- CHỮ KÝ NGƯỜI BỆNH / THÂN NHÂN -->
+                            <div class="camket-sig-row">
+                                <div class="camket-sig-box">
+                                    <p style="font-weight: bold; margin-bottom: 0;">Người bệnh thân nhân</p>
+                                    <p style="font-style: italic; margin-top: 0; font-size: 10pt;">(Ký và ghi rõ họ tên)
+                                    </p>
+                                    <div style="height: 1.5cm;"></div>
+                                    <input type="text" id="ck-ten-nguoi-benh" class="editable-input text-center bold"
+                                        placeholder="Họ tên người ký..." style="width: 200px;">
+                                </div>
+                            </div>
+
+                            <!-- NGUY CƠ / RỦI RO -->
+                            <div style="margin-bottom: 6px; text-align: left; line-height: 1.4;">
+                                <span>Nguy cơ/rủi ro: </span>
+                                <span contenteditable="true" id="ck-nguy-co" class="editable-content-span"
+                                    data-placeholder="Nhập nguy cơ / rủi ro..."></span>
+                            </div>
+
+                            <p style="margin-top: 6px; margin-bottom: 8px; text-align: justify;">
+                                Tôi xác nhận đã giải thích cho người bệnh/thân nhân của người bệnh về lợi ích,nguy
+                                cơ,biện pháp thay thế của việc từ chối sử dụng dịch vụ khám bệnh,chữa bệnh trên.
+                            </p>
+
+                            <!-- CHỮ KÝ BÁC SĨ -->
+                            <div class="camket-sig-row">
+                                <div class="camket-sig-box">
+                                    <p style="margin-bottom: 2px;">
+                                        Ngày <input type="text" id="ck-doc-ngay" class="editable-input text-center bold"
+                                            style="width: 30px;" placeholder="08">
+                                        tháng <input type="text" id="ck-doc-thang"
+                                            class="editable-input text-center bold" style="width: 30px;"
+                                            placeholder="10">
+                                        năm <input type="text" id="ck-doc-nam" class="editable-input text-center bold"
+                                            style="width: 50px;" placeholder="2026">
+                                    </p>
+                                    <p style="font-weight: bold; margin-bottom: 0;">Bác sỹ điều trị</p>
+                                    <p style="font-style: italic; margin-top: 0; font-size: 10pt;">(Ký và ghi rõ họ tên)
+                                    </p>
+                                    <div style="height: 1.5cm;"></div>
+                                    <input type="text" id="ck-ten-bac-si" class="editable-input text-center bold"
+                                        placeholder="Họ tên Bác sĩ..." style="width: 220px;">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- MẪU 3: GIẤY CAM KẾT CHUYỂN CƠ SỞ KHÁM BỆNH, CHỮA BỆNH (MS: 45/BV2) -->
+                    <div id="form-chuyenvien" class="container" style="display: none;">
+                        <div class="camket-page">
+                            <!-- HEADER -->
+                            <div class="camket-header">
+                                <div class="camket-header-left">
+                                    SỞ Y TẾ TỈNH ĐỒNG THÁP<br>
+                                    <strong>BỆNH VIỆN ĐA KHOA SA ĐÉC</strong>
+                                </div>
+                                <div class="camket-header-center">
+                                    <strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong><br>
+                                    <span style="text-decoration: underline; font-weight: bold;">Độc lập - Tự do - Hạnh
+                                        phúc</span>
+                                </div>
+                                <div class="camket-header-right">
+                                    MS: 45/BV2
+                                </div>
+                            </div>
+
+                            <!-- TIÊU ĐỀ -->
+                            <div class="camket-title-box">
+                                <h2 class="camket-title">GIẤY CAM KẾT<br>CHUYỂN CƠ SỞ KHÁM BỆNH. CHỮA BỆNH</h2>
+                                <p style="font-style: italic; margin-top: 6px; font-size: 11pt;">
+                                    <strong>Kính gửi:</strong> BỆNH VIỆN ĐA KHOA SA ĐÉC
+                                </p>
+                            </div>
+
+                            <!-- THÔNG TIN -->
+                            <div class="camket-row" style="margin-top: 10px;">
+                                <span>Tôi tên là:</span>
+                                <input type="text" id="cv-ho-ten" class="editable-input bold"
+                                    placeholder="Nhập họ tên người cam kết..." style="width: 320px;"
+                                    oninput="syncChuyenVienSigner(this.value)">
+                            </div>
+
+                            <div class="camket-row">
+                                <span>Địa chỉ:</span>
+                                <input type="text" id="cv-dia-chi" class="editable-input"
+                                    placeholder="Địa chỉ thường trú / tạm trú..." style="flex: 1;">
+                            </div>
+
+                            <div class="camket-row">
+                                <span>Ngày sinh:</span>
+                                <div class="date-input-group">
+                                    <input type="text" id="cv-ngay-sinh" class="editable-input" placeholder="dd/mm/yyyy"
+                                        style="width: 90px;">
+                                    <button type="button" class="btn-calendar-trigger"
+                                        onclick="openDatePicker('picker-cv-ngay-sinh')">📅</button>
+                                    <input type="date" id="picker-cv-ngay-sinh" class="date-picker-hidden"
+                                        onchange="applyDate(this, 'cv-ngay-sinh')">
+                                </div>
+                                <span style="margin-left: 20px;">Số căn cước/Hộ chiếu:</span>
+                                <input type="text" id="cv-cccd" class="editable-input"
+                                    placeholder="Số CCCD / Hộ chiếu..." style="width: 180px;">
+                            </div>
+
+                            <div class="camket-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="cv-la-nguoi-benh"
+                                        onchange="if(this.checked) document.getElementById('cv-la-than-nhan').checked = false;">
+                                    Là người bệnh
+                                </label>
+                            </div>
+
+                            <div class="camket-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="cv-la-than-nhan"
+                                        onchange="if(this.checked) document.getElementById('cv-la-nguoi-benh').checked = false;">
+                                    Là:
+                                </label>
+                                <input type="text" id="cv-moi-quan-he" class="editable-input"
+                                    placeholder="Mối quan hệ..." style="width: 100px;">
+                                <span>của người bệnh:</span>
+                                <input type="text" id="cv-ten-nguoi-benh" class="editable-input bold"
+                                    placeholder="Nhập tên người bệnh..." style="width: 200px;">
+                                <span style="margin-left: 10px;">Tuổi:</span>
+                                <input type="text" id="cv-tuoi" class="editable-input text-center" placeholder="Tuổi..."
+                                    style="width: 45px;">
+                            </div>
+
+                            <div class="camket-row" style="margin-top: 4px; align-items: center;">
+                                <span style="white-space: nowrap;">Đang điều trị tại khoa:</span>
+                                <select class="quick-khoa-select" onchange="applyKhoa(this, 'cv-khoa')"
+                                    style="width: 170px; display: inline-block;">
+                                    <option value="">-- Chọn Khoa --</option>
+                                    <option value="KHOA HỒI SỨC CẤP CỨU">KHOA HỒI SỨC CẤP CỨU</option>
+                                    <option value="KHOA HỒI SỨC TÍCH CỰC - CHỐNG ĐỘC">KHOA HỒI SỨC TÍCH CỰC - CHỐNG ĐỘC
+                                    </option>
+                                    <option value="KHOA KHÁM BỆNH">KHOA KHÁM BỆNH</option>
+                                    <option value="KHOA KIỂM SOÁT NHIỄM KHUẨN">KHOA KIỂM SOÁT NHIỄM KHUẨN</option>
+                                    <option value="KHOA LIÊN CHUYÊN KHOA">KHOA LIÊN CHUYÊN KHOA</option>
+                                    <option value="KHOA NGOẠI THẦN KINH-CHẤN THƯƠNG CHỈNH HÌNH">KHOA NGOẠI THẦN
+                                        KINH-CHẤN THƯƠNG CHỈNH HÌNH</option>
+                                    <option value="KHOA NGOẠI TỔNG HỢP">KHOA NGOẠI TỔNG HỢP</option>
+                                    <option value="KHOA NHI">KHOA NHI</option>
+                                    <option value="KHOA NỘI TIM MẠCH-LÃO HỌC">KHOA NỘI TIM MẠCH-LÃO HỌC</option>
+                                    <option value="KHOA NỘI TỔNG HỢP">KHOA NỘI TỔNG HỢP</option>
+                                    <option value="KHOA PHỤ SẢN">KHOA PHỤ SẢN</option>
+                                    <option value="KHOA PHẪU THUẬT- GÂY MÊ HỒI SỨC">KHOA PHẪU THUẬT- GÂY MÊ HỒI SỨC
+                                    </option>
+                                    <option value="KHOA TRUYỀN NHIỄM">KHOA TRUYỀN NHIỄM</option>
+                                    <option value="KHOA Y HỌC CỔ TRUYỀN - PHỤC HỒI CHỨC NĂNG">KHOA Y HỌC CỔ TRUYỀN -
+                                        PHỤC HỒI CHỨC NĂNG</option>
+                                </select>
+                                <input type="text" id="cv-khoa" class="editable-input bold" placeholder="Tên khoa..."
+                                    style="flex: 1;">
+                            </div>
+
+                            <div class="camket-row" style="margin-top: 4px;">
+                                <span style="white-space: nowrap;">Cơ sở KB, CB:</span>
+                                <input type="text" id="cv-co-so-kbcb" class="editable-input bold" style="flex: 1;"
+                                    value="BỆNH VIỆN ĐA KHOA SA ĐÉC">
+                            </div>
+
+                            <div class="camket-row" style="margin-top: 4px; align-items: flex-start;">
+                                <span style="line-height: 1.6; white-space: nowrap;">Chẩn đoán:</span>
+                                <textarea id="cv-chan-doan" class="auto-resize-textarea"
+                                    placeholder="Nhập chẩn đoán bệnh..." rows="1" style="flex: 1; min-width: 250px;"
+                                    oninput="autoResizeTextarea(this)"></textarea>
+                            </div>
+
+                            <!-- ĐOẠN CAM KẾT -->
+                            <div style="margin-top: 10px; text-align: left; line-height: 1.5;">
+                                Tôi đã được bác sỹ điều trị giải thích, tư vấn cụ thể về tình trạng bệnh của tôi/thân
+                                nhân của tôi và những nguy cơ biến chứng, rủi ro có thể xảy ra trên đường vận chuyển,
+                                tôi đề nghị được chuyển đến (tên cơ sở khám bệnh, chữa bệnh)
+                                <span contenteditable="true" id="cv-co-so-chuyen-den" class="editable-content-span bold"
+                                    data-placeholder="Nhập tên cơ sở chuyển đến..."></span>
+                                để tiếp tục theo dõi, chăm sóc, điều trị cho tôi/thân nhân của tôi.
+                            </div>
+
+                            <p style="margin-top: 8px; text-align: justify; line-height: 1.5;">
+                                Tôi cam kết trong quá trình chuyển đến cơ sở khám bệnh, chữa bệnh khác nếu có nguy cơ
+                                biến chứng, rủi ro có thể xảy ra với tôi/thân nhân của tôi, chúng tôi xin chịu hoàn toàn
+                                trách nhiệm.
+                            </p>
+
+                            <p style="margin-top: 8px; text-align: justify; line-height: 1.5;">
+                                Tôi cam kết thực hiện các nghĩa vụ chi trả chi phí khám bệnh, chữa bệnh ngoài phạm vi
+                                được hưởng và mức hưởng theo quy định của pháp luật về bảo hiểm y tế (nếu có).
+                            </p>
+
+                            <!-- CHỮ KÝ NGƯỜI BỆNH / THÂN NHÂN -->
+                            <div class="camket-sig-row" style="margin-top: 25px;">
+                                <div class="camket-sig-box">
+                                    <p style="font-weight: bold; margin-bottom: 0; text-transform: uppercase;">NGƯỜI
+                                        BỆNH/THÂN NHÂN</p>
+                                    <p style="font-style: italic; margin-top: 0; font-size: 10pt;">(Ký, ghi rõ họ tên)
+                                    </p>
+                                    <div style="height: 1.8cm;"></div>
+                                    <input type="text" id="cv-ten-nguoi-ky" class="editable-input text-center bold"
+                                        placeholder="Họ tên người ký..." style="width: 220px; color: #dc2626;">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- MẪU 4: GIẤY CAM KẾT RA VIỆN KHÔNG THEO CHỈ ĐỊNH CỦA BÁC SỸ (MS: 46/BV2) -->
+                    <div id="form-ravien" class="container" style="display: none;">
+
+                        <!-- TRANG 1 -->
+                        <div class="camket-page">
+                            <div class="page-badge no-print">TRANG 1 / 2</div>
+
+                            <!-- HEADER -->
+                            <div class="camket-header">
+                                <div class="camket-header-left">
+                                    SỞ Y TẾ TỈNH ĐỒNG THÁP<br>
+                                    <strong>BỆNH VIỆN ĐA KHOA SA ĐÉC</strong>
+                                </div>
+                                <div class="camket-header-center">
+                                    <strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong><br>
+                                    <span style="text-decoration: underline; font-weight: bold;">Độc lập - Tự do - Hạnh
+                                        phúc</span>
+                                </div>
+                                <div class="camket-header-right">
+                                    MS: 46/BV2
+                                </div>
+                            </div>
+
+                            <!-- TIÊU ĐỀ -->
+                            <div class="camket-title-box" style="margin: 2px 0 6px 0;">
+                                <h2 class="camket-title" style="font-size: 13pt; line-height: 1.25;">GIẤY CAM KẾT RA
+                                    VIỆN<br>KHÔNG THEO CHỈ ĐỊNH CỦA BÁC SỸ</h2>
+                                <p style="font-weight: bold; margin: 1px 0 2px 0; font-size: 10pt;">(Khi chưa kết thúc
+                                    việc chữa bệnh)</p>
+                                <p style="font-style: italic; margin-top: 1px; font-size: 10pt;">
+                                    <strong>Kính gửi:</strong> BỆNH VIỆN ĐA KHOA SA ĐÉC
+                                </p>
+                            </div>
+
+                            <!-- THÔNG TIN HÀNH CHÍNH -->
+                            <div class="camket-row">
+                                <span>Tôi tên là:</span>
+                                <input type="text" id="rv-ho-ten" class="editable-input bold"
+                                    placeholder="Nhập họ tên..." style="width: 300px;"
+                                    oninput="syncRaVienSigner(this.value)">
+                            </div>
+
+                            <div class="camket-row">
+                                <span>Địa chỉ:</span>
+                                <input type="text" id="rv-dia-chi" class="editable-input"
+                                    placeholder="Địa chỉ thường trú / tạm trú..." style="flex: 1;">
+                            </div>
+
+                            <div class="camket-row">
+                                <span>Ngày sinh:</span>
+                                <div class="date-input-group">
+                                    <input type="text" id="rv-ngay-sinh" class="editable-input" placeholder="dd/mm/yyyy"
+                                        style="width: 90px;">
+                                    <button type="button" class="btn-calendar-trigger"
+                                        onclick="openDatePicker('picker-rv-ngay-sinh')">📅</button>
+                                    <input type="date" id="picker-rv-ngay-sinh" class="date-picker-hidden"
+                                        onchange="applyDate(this, 'rv-ngay-sinh')">
+                                </div>
+                                <span style="margin-left: 15px;">Số Căn cước/Hộ chiếu:</span>
+                                <input type="text" id="rv-cccd" class="editable-input"
+                                    placeholder="Số CCCD / Hộ chiếu..." style="width: 170px;">
+                            </div>
+
+                            <div class="camket-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="rv-la-nguoi-benh"
+                                        onchange="if(this.checked) document.getElementById('rv-la-than-nhan').checked = false;">
+                                    Là người bệnh
+                                </label>
+                            </div>
+
+                            <div class="camket-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="rv-la-than-nhan"
+                                        onchange="if(this.checked) document.getElementById('rv-la-nguoi-benh').checked = false;">
+                                    Là:
+                                </label>
+                                <input type="text" id="rv-moi-quan-he" class="editable-input"
+                                    placeholder="Mối quan hệ..." style="width: 100px;">
+                                <span>của người bệnh:</span>
+                                <input type="text" id="rv-ten-nguoi-benh" class="editable-input bold"
+                                    placeholder="Nhập tên người bệnh..." style="width: 200px;">
+                                <span style="margin-left: 10px;">Tuổi:</span>
+                                <input type="text" id="rv-tuoi" class="editable-input text-center" placeholder="Tuổi..."
+                                    style="width: 45px;">
+                            </div>
+
+                            <div class="camket-row" style="margin-top: 2px;">
+                                <span style="white-space: nowrap;">Đang điều trị tại:</span>
+                                <input type="text" id="rv-khoa" class="editable-input bold"
+                                    placeholder="BỆNH VIỆN ĐA KHOA SA ĐÉC / Khoa..." style="flex: 1;"
+                                    value="BỆNH VIỆN ĐA KHOA SA ĐÉC">
+                            </div>
+
+                            <!-- XÁC NHẬN CỦA BÁC SỸ -->
+                            <div class="camket-section-title"
+                                style="margin-top: 4px; margin-bottom: 2px; font-size: 10.5pt; font-weight: bold;">XÁC
+                                NHẬN CỦA BÁC SỸ</div>
+
+                            <p
+                                style="margin-top: 1px; margin-bottom: 3px; text-align: justify; line-height: 1.3; font-size: 10pt;">
+                                Tôi xác nhận rằng tôi đã giải thích cho người bệnh/thân nhân của người bệnh về các nguy
+                                cơ và lợi ích của việc điều trị, chuyển viện (cơ sở khám bệnh, chữa bệnh) hoặc rời khỏi
+                                viện sớm được đề xuất trái với lời khuyên của bác sỹ như mô tả dưới đây.
+                            </p>
+
+                            <!-- OPTION 1 -->
+                            <div style="margin-top: 2px;">
+                                <label class="checkbox-label" style="font-weight: bold; font-size: 10pt;">
+                                    <input type="checkbox" id="rv-opt-1"> Từ chối chấp thuận khám bệnh/Điều trị/Nằm viện
+                                    (hoặc rút lại sự chấp thuận)
+                                </label>
+                                <div style="margin-left: 20px; margin-top: 1px;">
+                                    <div
+                                        style="margin-bottom: 2px; text-align: left; line-height: 1.3; font-size: 10pt;">
+                                        <span>Lý do/lợi ích của việc khám bệnh/điều trị/nằm viện được đề xuất: </span>
+                                        <span contenteditable="true" id="rv-opt1-lydo" class="editable-content-span"
+                                            data-placeholder="Nhập lý do / lợi ích..."></span>
+                                    </div>
+                                    <div
+                                        style="margin-bottom: 2px; text-align: left; line-height: 1.3; font-size: 10pt;">
+                                        <span>Các nguy cơ của việc từ chối khám bệnh/điều trị/nằm viện: </span>
+                                        <span contenteditable="true" id="rv-opt1-nguyco" class="editable-content-span"
+                                            data-placeholder="Nhập các nguy cơ..."></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- OPTION 2 -->
+                            <div style="margin-top: 2px;">
+                                <label class="checkbox-label" style="font-weight: bold; font-size: 10pt;">
+                                    <input type="checkbox" id="rv-opt-2"> Xin xuất viện sớm
+                                </label>
+                                <div style="margin-left: 20px; margin-top: 1px;">
+                                    <div
+                                        style="margin-bottom: 2px; text-align: left; line-height: 1.3; font-size: 10pt;">
+                                        <span>Các nguy cơ về sức khỏe của người bệnh do xuất viện sớm: </span>
+                                        <span contenteditable="true" id="rv-opt2-nguyco" class="editable-content-span"
+                                            data-placeholder="Nhập nguy cơ sức khỏe do xuất viện sớm..."></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- OPTION 3 -->
+                            <div style="margin-top: 2px;">
+                                <label class="checkbox-label" style="font-weight: bold; font-size: 10pt;">
+                                    <input type="checkbox" id="rv-opt-3"> Từ chối Chấp thuận chuyển viện đến cơ sở y tế
+                                    khác
+                                </label>
+                                <div style="margin-left: 20px; margin-top: 1px;">
+                                    <div
+                                        style="margin-bottom: 2px; text-align: left; line-height: 1.3; font-size: 10pt;">
+                                        <span>Lý do chuyển viện được đề xuất: </span>
+                                        <span contenteditable="true" id="rv-opt3-lydo" class="editable-content-span"
+                                            data-placeholder="Nhập lý do chuyển viện..."></span>
+                                    </div>
+                                    <div
+                                        style="margin-bottom: 2px; text-align: left; line-height: 1.3; font-size: 10pt;">
+                                        <span>Các nguy cơ của việc từ chối chấp thuận chuyển viện: </span>
+                                        <span contenteditable="true" id="rv-opt3-nguyco" class="editable-content-span"
+                                            data-placeholder="Nhập các nguy cơ..."></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CHỮ KÝ BÁC SĨ -->
+                            <div class="camket-sig-row" style="margin-top: 3px; margin-bottom: 3px;">
+                                <div class="camket-sig-box">
+                                    <p style="margin-bottom: 1px; font-size: 10pt;">
+                                        Ngày <input type="text" id="rv-doc-ngay" class="editable-input text-center bold"
+                                            style="width: 28px;" placeholder="08">
+                                        tháng <input type="text" id="rv-doc-thang"
+                                            class="editable-input text-center bold" style="width: 28px;"
+                                            placeholder="10">
+                                        năm <input type="text" id="rv-doc-nam" class="editable-input text-center bold"
+                                            style="width: 45px;" placeholder="2026">
+                                    </p>
+                                    <p style="font-weight: bold; margin-bottom: 0;">Bác sỹ</p>
+                                    <p style="font-style: italic; margin-top: 0; font-size: 9pt;">(Ký, ghi rõ họ tên)
+                                    </p>
+                                    <div style="height: 1.3cm;"></div>
+                                    <input type="text" id="rv-ten-bac-si" class="editable-input text-center bold"
+                                        placeholder="Họ tên Bác sĩ..." style="width: 200px;">
+                                </div>
+                            </div>
+
+                            <!-- XÁC NHẬN CỦA NGƯỜI BỆNH/THÂN NHÂN -->
+                            <div class="camket-section-title"
+                                style="margin-top: 4px; margin-bottom: 2px; font-size: 10.5pt; font-weight: bold;">XÁC
+                                NHẬN CỦA NGƯỜI BỆNH/THÂN NHÂN CỦA NGƯỜI BỆNH</div>
+
+                            <p
+                                style="margin-top: 1px; margin-bottom: 2px; text-align: justify; line-height: 1.3; font-size: 10pt;">
+                                Bằng việc ký vào mẫu đơn này, tôi xác nhận quyết định của tôi về việc không làm theo chỉ
+                                định, lời khuyên của bác sỹ như đã nêu ở trên và xác nhận rằng tôi nhận thức về các rủi
+                                ro đối với tôi/thân nhân của tôi do không làm theo chỉ định, lời khuyên của bác sỹ.
+                            </p>
+                            <p
+                                style="margin-top: 1px; margin-bottom: 2px; text-align: justify; line-height: 1.3; font-size: 10pt;">
+                                Qua đơn này tôi cam kết không để cơ sở khám bệnh, chữa bệnh tại BỆNH VIỆN ĐA KHOA SA ĐÉC
+                                và các nhân viên y tế có liên quan đã điều trị/tư vấn cho tôi/thân nhân của tôi phải
+                                chịu trách nhiệm vì đã không điều trị hoặc chuyển viện hoặc xuất viện như đã nêu trên.
+                            </p>
+
+                            <!-- CHỮ KÝ NGƯỜI BỆNH / THÂN NHÂN -->
+                            <div class="camket-sig-row" style="margin-top: 3px;">
+                                <div class="camket-sig-box">
+                                    <p style="margin-bottom: 1px; font-size: 10pt;">
+                                        Ngày <input type="text" id="rv-nb-ngay" class="editable-input text-center bold"
+                                            style="width: 28px;" placeholder="08">
+                                        tháng <input type="text" id="rv-nb-thang"
+                                            class="editable-input text-center bold" style="width: 28px;"
+                                            placeholder="10">
+                                        năm <input type="text" id="rv-nb-nam" class="editable-input text-center bold"
+                                            style="width: 45px;" placeholder="2026">
+                                    </p>
+                                    <p style="font-weight: bold; margin-bottom: 0;">Người bệnh/thân nhân</p>
+                                    <p style="font-style: italic; margin-top: 0; font-size: 9pt;">(Ký, ghi rõ họ tên)
+                                    </p>
+                                    <div style="height: 1.3cm;"></div>
+                                    <input type="text" id="rv-ten-nguoi-ky" class="editable-input text-center bold"
+                                        placeholder="Họ tên..." style="width: 200px; color: #dc2626;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TRANG 2 -->
+                        <div class="camket-page" style="margin-top: 25px;">
+                            <div class="page-badge no-print">TRANG 2 / 2</div>
+
+                            <!-- HOÀN THÀNH MỤC NÀY NẾU KHÔNG KÝ -->
+                            <div style="padding-top: 5px;">
+                                <div class="camket-section-title"
+                                    style="font-size: 11pt; font-weight: bold; text-transform: uppercase; line-height: 1.35; margin-bottom: 12px;">
+                                    HOÀN THÀNH MỤC NÀY NẾU NGƯỜI BỆNH/THÂN NHÂN CỦA NGƯỜI BỆNH TỪ CHỐI KÝ GIẤY CAM KẾT
+                                    RỜI KHỎI CƠ SỞ KHÁM BỆNH, CHỮA BỆNH KHÔNG THEO CHỈ ĐỊNH CỦA BÁC SỸ
+                                </div>
+
+                                <div
+                                    style="margin-left: 20px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 6px;">
+                                    <label class="checkbox-label" style="font-size: 11pt;">
+                                        <input type="checkbox" id="rv-tc-nguoi-benh-tu-choi"> Người bệnh/thân nhân từ
+                                        chối ký
+                                    </label>
+                                    <label class="checkbox-label" style="font-size: 11pt;">
+                                        <input type="checkbox" id="rv-tc-da-doc-giay" checked> Đã đọc giấy này cho người
+                                        bệnh/thân nhân
+                                    </label>
+                                </div>
+
+                                <div style="font-size: 11pt; line-height: 1.6;">
+                                    <div class="camket-row" style="margin-bottom: 6px;">
+                                        <span>Họ và tên bác sỹ:</span>
+                                        <input type="text" class="editable-input bold" style="flex: 1;"
+                                            placeholder="Họ tên bác sỹ...">
+                                    </div>
+                                    <div class="camket-row" style="margin-bottom: 6px;">
+                                        <span>Chữ ký:</span>
+                                        <input type="text" class="editable-input" style="flex: 1;"
+                                            placeholder="Ký tên...">
+                                        <span
+                                            style="white-space: nowrap; margin-left: 15px;">Ngày......./......./20.......</span>
+                                    </div>
+
+                                    <div class="camket-row" style="margin-top: 4px; margin-bottom: 6px;">
+                                        <span>Họ và tên nhân chứng thứ 1:</span>
+                                        <input type="text" class="editable-input bold" style="flex: 1;"
+                                            placeholder="Họ tên nhân chứng 1...">
+                                    </div>
+                                    <div class="camket-row" style="margin-bottom: 6px;">
+                                        <span>Chữ ký:</span>
+                                        <input type="text" class="editable-input" style="flex: 1;"
+                                            placeholder="Ký tên...">
+                                        <span
+                                            style="white-space: nowrap; margin-left: 15px;">Ngày......./......./20.......</span>
+                                    </div>
+
+                                    <div class="camket-row" style="margin-top: 4px; margin-bottom: 6px;">
+                                        <span>Họ và tên nhân chứng thứ 2:</span>
+                                        <input type="text" class="editable-input bold" style="flex: 1;"
+                                            placeholder="Họ tên nhân chứng 2...">
+                                    </div>
+                                    <div class="camket-row" style="margin-bottom: 6px;">
+                                        <span>Chữ ký:</span>
+                                        <input type="text" class="editable-input" style="flex: 1;"
+                                            placeholder="Ký tên...">
+                                        <span
+                                            style="white-space: nowrap; margin-left: 15px;">Ngày......./......./20.......</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </main>
+
+            <!-- PANEL THAO TÁC & TRẠNG THÁI BÊN PHẢI -->
+            <aside class="app-right-panel">
+
+                <!-- BẢNG THAO TÁC NHANH -->
+                <div class="panel-card">
+                    <div class="panel-card-header">
+                        <span>🚀</span> Thao tác nhanh
+                    </div>
+                    <button class="btn-action-primary" onclick="window.print()">
+                        <span>🖨️</span> In Mẫu Phiếu
+                    </button>
+                    <button class="btn-action-secondary" onclick="clearAllData()">
+                        <span>🧹</span> Xóa Trắng Form
+                    </button>
+                </div>
+                <div
+                    style="margin-top: auto; padding: 12px; text-align: center; font-size: 11px; color: #64748b; font-family: 'Inter', sans-serif;">
+                    Designed by <strong>Quoc IT</strong><br>
+                    <span style="opacity: 0.8;">© Quoc IT</span>
+                </div>
+            </aside>
+
+        </div>
+    </div>
+
+    <script>
+        // Khởi tạo năm & ngày giờ hiện tại
+        const now = new Date();
+        document.getElementById('input-nam').value = now.getFullYear();
+
+        // Tự động điền ngày giờ vào Form Cam Kết
+        document.getElementById('ck-gio').value = String(now.getHours()).padStart(2, '0');
+        document.getElementById('ck-phut').value = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('ck-ngay').value = String(now.getDate()).padStart(2, '0');
+        document.getElementById('ck-thang').value = String(now.getMonth() + 1).padStart(2, '0');
+        document.getElementById('ck-nam').value = now.getFullYear();
+
+        document.getElementById('ck-doc-ngay').value = String(now.getDate()).padStart(2, '0');
+        document.getElementById('ck-doc-thang').value = String(now.getMonth() + 1).padStart(2, '0');
+        document.getElementById('ck-doc-nam').value = now.getFullYear();
+
+        // Tự động điền ngày cho Form Ra viện trái chỉ định
+        if (document.getElementById('rv-doc-ngay')) {
+            document.getElementById('rv-doc-ngay').value = String(now.getDate()).padStart(2, '0');
+            document.getElementById('rv-doc-thang').value = String(now.getMonth() + 1).padStart(2, '0');
+            document.getElementById('rv-doc-nam').value = now.getFullYear();
+
+            document.getElementById('rv-nb-ngay').value = String(now.getDate()).padStart(2, '0');
+            document.getElementById('rv-nb-thang').value = String(now.getMonth() + 1).padStart(2, '0');
+            document.getElementById('rv-nb-nam').value = now.getFullYear();
+        }
+
+        // Tự động đồng bộ Tên người ký xuống dòng chữ ký bên dưới (Form 2)
+        function syncSignerName(val) {
+            const sigInput = document.getElementById('ck-ten-nguoi-benh');
+            if (sigInput) {
+                sigInput.value = val;
+            }
+        }
+
+        // Tự động đồng bộ Tên người ký xuống dòng chữ ký bên dưới (Form 3 - Chuyển viện)
+        function syncChuyenVienSigner(val) {
+            const sigInput = document.getElementById('cv-ten-nguoi-ky');
+            if (sigInput) {
+                sigInput.value = val;
+            }
+        }
+
+        // Tự động đồng bộ Tên người ký xuống dòng chữ ký bên dưới (Form 4 - Ra viện trái chỉ định)
+        function syncRaVienSigner(val) {
+            const sigInput = document.getElementById('rv-ten-nguoi-ky');
+            if (sigInput) {
+                sigInput.value = val;
+            }
+        }
+
+        // Tự động co giãn chiều cao của Textarea theo nội dung nhập
+        function autoResizeTextarea(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+
+        // Chuyển đổi giữa các Mẫu phiếu từ Sidebar & Header
+        function switchForm(formName) {
+            const navBia = document.getElementById('nav-bia');
+            const navCamKet = document.getElementById('nav-camket');
+            const navChuyenVien = document.getElementById('nav-chuyenvien');
+            const navRaVien = document.getElementById('nav-ravien');
+
+            const formBia = document.getElementById('form-bia');
+            const formCamKet = document.getElementById('form-camket');
+            const formChuyenVien = document.getElementById('form-chuyenvien');
+            const formRaVien = document.getElementById('form-ravien');
+
+            const breadcrumbEl = document.getElementById('current-form-breadcrumb');
+
+            // Reset tất cả các nút & ẩn các form
+            if (navBia) navBia.classList.remove('active');
+            if (navCamKet) navCamKet.classList.remove('active');
+            if (navChuyenVien) navChuyenVien.classList.remove('active');
+            if (navRaVien) navRaVien.classList.remove('active');
+
+            if (formBia) formBia.style.display = 'none';
+            if (formCamKet) formCamKet.style.display = 'none';
+            if (formChuyenVien) formChuyenVien.style.display = 'none';
+            if (formRaVien) formRaVien.style.display = 'none';
+
+            if (formName === 'bia') {
+                if (navBia) navBia.classList.add('active');
+                if (formBia) formBia.style.display = 'block';
+                if (breadcrumbEl) breadcrumbEl.innerText = 'Tạo Bìa Bệnh Án';
+            } else if (formName === 'camket') {
+                if (navCamKet) navCamKet.classList.add('active');
+                if (formCamKet) formCamKet.style.display = 'block';
+                if (breadcrumbEl) breadcrumbEl.innerText = 'Giấy Cam Kết Từ Chối KCB';
+            } else if (formName === 'chuyenvien') {
+                if (navChuyenVien) navChuyenVien.classList.add('active');
+                if (formChuyenVien) formChuyenVien.style.display = 'block';
+                if (breadcrumbEl) breadcrumbEl.innerText = 'Giấy Cam Kết Chuyển Viện';
+            } else if (formName === 'ravien') {
+                if (navRaVien) navRaVien.classList.add('active');
+                if (formRaVien) formRaVien.style.display = 'block';
+                if (breadcrumbEl) breadcrumbEl.innerText = 'Cam Kết Ra Viện Trái Chỉ Định';
+            }
+        }
+
+        // Cập nhật Barcode động khi nhập Mã bệnh án
+        function updateBarcode() {
+            const val = document.getElementById('input-ma-ba').value.trim();
+            const barcodeEl = document.getElementById('barcode');
+            if (val && typeof JsBarcode === 'function') {
+                try {
+                    JsBarcode("#barcode", val, {
+                        format: "CODE128",
+                        width: 1.4,
+                        height: 25,
+                        displayValue: false
+                    });
+                    barcodeEl.style.display = "block";
+                } catch (e) {
+                    console.error("Barcode generation error:", e);
+                    barcodeEl.style.display = "none";
+                }
+            } else {
+                barcodeEl.style.display = "none";
+            }
+        }
+
+        // Điền nhanh tên Khoa khi chọn từ danh sách Dropdown
+        function applyKhoa(selectEl, targetId) {
+            if (selectEl.value) {
+                const target = document.getElementById(targetId);
+                target.value = selectEl.value;
+                selectEl.value = "";
+                autoResizeTextarea(target);
+            }
+        }
+
+        // Mở bộ chọn ngày native calendar
+        function openDatePicker(pickerId) {
+            const picker = document.getElementById(pickerId);
+            if (picker) {
+                if (typeof picker.showPicker === 'function') {
+                    picker.showPicker();
+                } else {
+                    picker.click();
+                }
+            }
+        }
+
+        // Định dạng ngày chọn từ Lịch thành dd/mm/yyyy
+        function applyDate(datePicker, targetId) {
+            if (!datePicker.value) return;
+            const parts = datePicker.value.split('-'); // Format YYYY-MM-DD
+            if (parts.length === 3) {
+                const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+                document.getElementById(targetId).value = formattedDate;
+            }
+        }
+
+        // Xóa sạch toàn bộ dữ liệu ô nhập (Trả về Form Rỗng)
+        function clearAllData() {
+            const inputs = document.querySelectorAll('.editable-input, .editable-textarea, .editable-textarea-short, .editable-select, .auto-resize-textarea');
+            inputs.forEach(input => {
+                if (input.id === 'input-nam' || input.id === 'ck-nam' || input.id === 'ck-doc-nam') {
+                    input.value = new Date().getFullYear();
+                } else {
+                    input.value = '';
+                }
+                if (input.tagName.toLowerCase() === 'textarea') {
+                    autoResizeTextarea(input);
+                }
+            });
+            const editables = document.querySelectorAll('.editable-content-span, [contenteditable="true"]');
+            editables.forEach(el => el.innerText = '');
+
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = false);
+            const datePickers = document.querySelectorAll('.date-picker-hidden');
+            datePickers.forEach(dp => dp.value = '');
+            updateBarcode();
+        }
+    </script>
+</body>
+
+</html>
