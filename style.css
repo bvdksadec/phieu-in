@@ -1,64 +1,685 @@
-/* CSS Document for Bệnh Án Cover Page - Bệnh Viện Đa Khoa Sa Đéc */
-
 * {
     box-sizing: border-box;
 }
 
-.menu-fix {
+/* ==========================================================================
+   1. GIAO DIỆN TỔNG THỂ 
+   ========================================================================== */
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f1f5f9;
+    color: #1e293b;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* ----- THANH HEADER TRÊN CÙNG ----- */
+.app-header {
+    height: 52px;
+    background: linear-gradient(90deg, #0f4c81 0%, #1e40af 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-logo-badge {
+    width: 34px;
+    height: 34px;
+    background: #ffffff;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.brand-logo-badge svg {
+    width: 22px;
+    height: 22px;
+    fill: #0f4c81;
+}
+
+.brand-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-name {
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.brand-sub {
+    font-size: 11px;
+    color: #93c5fd;
+    font-weight: 500;
+}
+
+.header-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #e0f2fe;
+}
+
+.header-breadcrumb .home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-hospital-info {
+    text-align: right;
+    line-height: 1.25;
+}
+
+.user-hospital-info .hosp-name {
+    font-weight: 700;
+    font-size: 13px;
+    display: block;
+    letter-spacing: 0.3px;
+}
+
+.user-hospital-info .sys-name {
+    font-size: 11px;
+    color: #bfdbfe;
+}
+
+.user-avatar-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+/* ----- KHUNG THÂN CHÍNH (SIDEBAR + WORKSPACE + RIGHT PANEL) ----- */
+.app-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ----- SIDEBAR MENU BÊN TRÁI ----- */
+.app-sidebar {
+    width: 230px;
+    background-color: #ffffff;
+    border-right: 1px solid #cbd5e1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-shrink: 0;
+    z-index: 90;
+}
+
+.sidebar-menu {
+    padding: 12px 10px;
+}
+
+.sidebar-group-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 8px 10px 4px 10px;
+    margin-top: 6px;
+}
+
+.sidebar-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    margin-bottom: 4px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background: transparent;
+    color: #334155;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s ease-in-out;
+}
+
+.sidebar-item:hover {
+    background-color: #f1f5f9;
+    color: #0f4c81;
+}
+
+.sidebar-item.active {
+    background-color: #e0f2fe;
+    color: #0369a1;
+    border-color: #bae6fd;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.sidebar-item .item-icon {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+}
+
+.sidebar-footer {
+    padding: 12px;
+    border-top: 1px solid #f1f5f9;
+    background-color: #fafafa;
+    font-size: 11px;
+    color: #64748b;
+    text-align: center;
+}
+
+/* ----- VÙNG KHÔNG GIAN LÀM VIỆC (WORKSPACE) ----- */
+.app-workspace {
+    flex: 1;
+    background-color: #e2e8f0;
+    overflow-y: auto;
+    padding: 20px 10px 40px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.workspace-paper-wrapper {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+    border-radius: 2px;
+    background: #ffffff;
+    transition: transform 0.2s ease;
+}
+
+/* ----- BẢNG ĐIỀU KHIỂN BÊN PHẢI (RIGHT ACTION PANEL) ----- */
+.app-right-panel {
+    width: 260px;
+    background-color: #ffffff;
+    border-left: 1px solid #cbd5e1;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+.panel-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.panel-card-header {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f4c81;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #e2e8f0;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.btn-action-primary {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(2, 132, 199, 0.3);
+    transition: all 0.2s ease;
+    margin-bottom: 8px;
+}
+
+.btn-action-primary:hover {
+    background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+    box-shadow: 0 4px 8px rgba(2, 132, 199, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-action-secondary {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: #ffffff;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-action-secondary:hover {
+    background: #f8fafc;
+    color: #0f172a;
+    border-color: #94a3b8;
+}
+
+.status-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.status-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px dotted #f1f5f9;
+}
+
+.status-step:last-child {
+    border-bottom: none;
+}
+
+.step-badge {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.status-step.completed .step-badge {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status-step.active .step-badge {
+    background: #0284c7;
+    color: #ffffff;
+}
+
+.step-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.step-title {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.step-detail {
+    font-size: 11px;
+    color: #64748b;
+}
+
+
+/* ==========================================================================
+   2. CÁC PHẦN TỬ NHẬP LIỆU CHUNG (FORM CONTROLS)
+   ========================================================================== */
+
+/* Bắt buộc toàn bộ 6 Form in sử dụng Font Times New Roman chuẩn y tế */
+#form-bia,
+#form-camket,
+#form-chuyenvien,
+#form-ravien,
+#form-tamung,
+#form-phieuthu,
+.container,
+.page,
+.camket-page,
+.tamung-page,
+.phieuthu-page,
+#form-bia *,
+#form-camket *,
+#form-chuyenvien *,
+#form-ravien *,
+#form-tamung *,
+#form-phieuthu * {
+    font-family: "Times New Roman", "Tinos", Times, serif !important;
+}
+
+.editable-input {
+    border: none;
+    border-bottom: 1px dotted #94a3b8;
+    background: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: #0f172a;
+    outline: none;
+    padding: 2px 4px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.editable-input:hover {
+    background-color: #f1f5f9;
+    border-bottom-color: #3b82f6;
+}
+
+.editable-input:focus {
+    background-color: #eff6ff;
+    border-bottom: 1.5px solid #2563eb;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.editable-select {
+    border: none;
+    border-bottom: 1px dotted #94a3b8;
+    background: transparent;
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: bold;
+    color: #0f172a;
+    outline: none;
+    padding: 2px 4px;
+    cursor: pointer;
+    text-align: center;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.editable-select:hover {
+    background-color: #f1f5f9;
+    border-bottom-color: #3b82f6;
+}
+
+.editable-select:focus {
+    background-color: #eff6ff;
+    border-bottom: 1.5px solid #2563eb;
+}
+
+.date-input-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    position: relative;
+}
+
+.btn-calendar-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0 2px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.btn-calendar-trigger:hover {
+    opacity: 1;
+}
+
+.date-picker-hidden {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+}
+
+.quick-khoa-select {
+    font-size: 11px;
+    padding: 2px 6px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    background-color: #f8fafc;
+    color: #334155;
+    cursor: pointer;
+    margin-bottom: 3px;
+    outline: none;
+    transition: all 0.2s;
+    width: 100%;
+    text-align: left;
+}
+
+.quick-khoa-select:hover {
+    background-color: #f1f5f9;
+    border-color: #3b82f6;
+    color: #2563eb;
+}
+
+.btn-quick-pill {
+    background-color: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 1px 7px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    line-height: 1.4;
+    transition: all 0.15s ease-in-out;
+}
+
+.btn-quick-pill:hover {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.quick-money-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.auto-resize-textarea {
+    border: none;
+    border-bottom: 1px dotted #94a3b8;
+    background: transparent;
+    font-family: inherit;
+    font-size: 11.5pt;
+    color: #0f172a;
+    width: 100%;
+    outline: none;
+    padding: 0 4px;
+    resize: none;
+    overflow: hidden;
+    height: auto;
+    min-height: 1.3em;
+    line-height: 1.35;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.auto-resize-textarea:hover {
+    background-color: #f1f5f9;
+    border-bottom-color: #3b82f6;
+}
+
+.auto-resize-textarea:focus {
+    background-color: #eff6ff;
+    border-bottom: 1.5px solid #2563eb;
+}
+
+.camket-inline-field {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+
+.camket-inline-field .auto-resize-textarea {
+    flex: 1;
+    min-width: 200px;
+}
+
+.editable-content-span {
+    outline: none;
+    border-bottom: 1px dotted #94a3b8;
+    padding: 0 4px;
+    display: inline;
+    word-break: break-all;
+}
+
+.editable-content-span:focus {
+    background-color: #eff6ff;
+    border-bottom: 1.5px solid #2563eb;
+}
+
+.editable-textarea-short {
+    border: none;
+    border-bottom: 1px dotted #94a3b8;
+    background: transparent;
+    font-family: inherit;
+    font-size: 11.5pt;
+    font-weight: bold;
+    color: #0f172a;
+    width: 100%;
+    outline: none;
+    padding: 2px 4px;
+    resize: none;
+    overflow: hidden;
+    height: 38px;
+    min-height: 38px;
+    line-height: 1.25;
+    transition: background-color 0.2s, border-color 0.2s;
+    text-transform: uppercase;
+}
+
+.editable-textarea-short:hover {
+    background-color: #f1f5f9;
+    border-bottom-color: #3b82f6;
+}
+
+.editable-textarea-short:focus {
+    background-color: #eff6ff;
+    border-bottom: 1.5px solid #2563eb;
+}
+
+.editable-textarea {
+    border: 1px dotted #94a3b8;
+    background: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: #0f172a;
+    width: 100%;
+    min-height: 2cm;
+    outline: none;
+    padding: 6px;
+    resize: vertical;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.editable-textarea:hover {
+    background-color: #f1f5f9;
+    border-color: #3b82f6;
+}
+
+.editable-textarea:focus {
+    background-color: #eff6ff;
+    border: 1.5px solid #2563eb;
+}
+
+.barcode-container {
+    margin-top: 2px;
     display: flex;
     justify-content: center;
 }
 
-#print {
+#barcode {
+    display: none;
+    max-width: 100%;
+}
+
+.patient-name-input {
+    font-size: 22px;
+    font-weight: bold;
     text-transform: uppercase;
-    padding: 8px 10px;
-    background-color: red;
-    font-weight: 700;
-    font-size: 18px;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    margin-bottom: 2px;
-    cursor: pointer;
 }
 
-@media print {
-    @page {
-        size: A4 portrait;
-        margin: 0;
-    }
-
-    html,
-    body {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    .menu-fix,
-    #menu,
-    .break-page {
-        display: none !important;
-    }
-
-    .page {
-        page-break-after: avoid !important;
-        page-break-before: auto !important;
-        page-break-inside: avoid !important;
-        margin: 0 !important;
-    }
+.patient-year-input,
+.patient-gender-input {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
 }
 
-body {
-    font-family: "Times New Roman", "Tinos", Times, serif;
-    font-size: 11pt;
-    line-height: 1.4;
-    color: #000;
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
+.text-uppercase {
+    text-transform: uppercase;
 }
 
-/* Page container */
+.bold {
+    font-weight: bold;
+}
+
+
+/* ==========================================================================
+   3. ĐỊNH DẠNG 6 MẪU PHIẾU (QUY CHUẨN LỀ TRÁI 1.5cm - LỀ PHẢI 1.0cm)
+   ========================================================================== */
+
+/* Khung chung cho trang giấy */
 .container {
     width: 21cm;
     margin: 0 auto;
@@ -66,30 +687,28 @@ body {
     background: #fff;
 }
 
-/* Printable A4 sheet dimensions */
+/* --------------------------------------------------------------------------
+   3.1. MẪU 1: BÌA BỆNH ÁN (.page)
+   Chuẩn lề: Trái 1.5cm - Phải 1.0cm
+   -------------------------------------------------------------------------- */
 .page {
     width: 21cm;
     min-height: 29.7cm;
-    padding: 1cm 1cm 1cm 1.5cm;
-    /* Lề trái rộng hơn phục vụ khâu/đóng gáy bệnh án */
+    padding: 1.0cm 1.0cm 1.0cm 1.5cm;
     position: relative;
     background-color: #fff;
     border: 1px solid #a9aaac;
-    /* Hiển thị nhẹ trên màn hình */
 }
 
-/* Decorative inner double border frame */
 .page-inner-border {
     border: 3px double #000;
-    min-height: calc(29.7cm - 2.4cm);
-    /* Chiều cao trừ đi padding trên/dưới */
+    min-height: calc(29.7cm - 2.0cm);
     padding: 1.2cm 0.8cm;
     display: flex;
     flex-direction: column;
     position: relative;
 }
 
-/* HEADER STYLE */
 .header-container {
     display: flex;
     justify-content: space-between;
@@ -145,16 +764,15 @@ body {
     justify-content: flex-end;
 }
 
-/* Mã bệnh nhân dạng thẻ lưu trữ hành chính */
 .patient-id-card {
     border: 1px solid #000;
-    padding: 8px;
+    padding: 4px 6px;
     text-align: center;
-    width: 5.5cm;
+    width: 5.2cm;
     background-color: #fafafa;
 }
 
-.card-label {
+.patient-id-card .card-label {
     font-size: 8pt;
     text-transform: uppercase;
     font-weight: bold;
@@ -163,48 +781,15 @@ body {
     margin-bottom: 2px;
 }
 
-.card-value {
-    font-size: 13pt;
-    font-weight: bold;
+.patient-id-card .editable-input {
+    text-align: center;
     font-family: monospace;
-    letter-spacing: 1px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 1px 0;
+    margin: 0;
 }
 
-/* Giả lập Barcode bằng CSS */
-.barcode-sim {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    height: 20px;
-    margin-top: 6px;
-    opacity: 0.85;
-}
-
-.bar {
-    background-color: #000;
-    height: 100%;
-    margin: 0 1px;
-}
-
-.bar-1 {
-    width: 1px;
-}
-
-.bar-2 {
-    width: 2px;
-}
-
-.bar-3 {
-    width: 3.5px;
-}
-
-.bar-4 {
-    width: 5px;
-}
-
-
-
-/* TITLE SECTION */
 .title-container {
     text-align: center;
     margin-top: 1cm;
@@ -245,7 +830,6 @@ body {
     letter-spacing: 1px;
 }
 
-/* SECTIONS AND FIELDS */
 .form-section {
     width: 100%;
     margin-bottom: 20px;
@@ -261,7 +845,6 @@ body {
     padding-left: 8px;
 }
 
-/* Hàng thông tin có dòng gạch chấm (dotted line) viết tay */
 .info-row {
     display: flex;
     width: 100%;
@@ -281,7 +864,6 @@ body {
     min-width: 0;
 }
 
-/* Dòng Họ tên - Năm sinh - Giới tính */
 .info-row.patient-info-row .patient-name {
     flex: 1;
     min-width: 0;
@@ -293,8 +875,8 @@ body {
 }
 
 .info-row.patient-info-row .patient-gender {
-    flex: 0 0 70px;
-    width: 70px;
+    flex: 0 0 auto !important;
+    width: auto !important;
     justify-content: flex-end;
 }
 
@@ -310,14 +892,6 @@ body {
     padding-right: 4px;
 }
 
-.text-uppercase {
-    text-transform: uppercase;
-}
-
-.bold {
-    font-weight: bold;
-}
-
 .field-dots {
     flex-grow: 1;
     border-bottom: 1px dotted #000;
@@ -325,7 +899,6 @@ body {
     margin-bottom: 3px;
 }
 
-/* THẺ THEO DÕI QUÁ TRÌNH ĐIỀU TRỊ */
 .tracking-grid {
     margin-top: 10px;
     display: grid;
@@ -382,7 +955,6 @@ body {
     color: #000;
 }
 
-/* HỘP CHẨN ĐOÁN & HỒ SƠ PHIM */
 .diagnosis-imaging-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -441,7 +1013,6 @@ body {
     text-align: right;
 }
 
-/* CHỮ KÝ SỐ KÝ CHỐT */
 .ky-chot {
     width: 5.5cm;
     position: absolute;
@@ -460,7 +1031,6 @@ body {
     font-weight: 600;
     position: absolute;
     color: #dc3545;
-    /* Màu đỏ chữ ký số chuẩn */
     top: 72px;
     left: 10px;
     z-index: 11;
@@ -476,40 +1046,743 @@ body {
     z-index: 11;
 }
 
-/* Ẩn các phần tử input ẩn của VNPT EMR */
-input[type="hidden"] {
-    display: none;
+/* --------------------------------------------------------------------------
+   3.2. MẪU 2, 3: GIẤY CAM KẾT TỪ CHỐI KCB & CHUYỂN VIỆN (.camket-page)
+   Chuẩn lề: Trái 1.5cm - Phải 1.0cm
+   -------------------------------------------------------------------------- */
+.camket-page {
+    width: 21cm;
+    min-height: 29.7cm;
+    padding: 1.0cm 1.0cm 1.0cm 1.5cm;
+    background-color: #fff;
+    margin: 0 auto;
+    font-family: "Times New Roman", "Tinos", Times, serif;
+    font-size: 11pt;
+    line-height: 1.35;
+    color: #000;
+    border: 1px solid #a9aaac;
+    position: relative;
 }
 
-/* ĐỊNH DẠNG TRANG IN A4 CHUẨN KHI IN */
+.page-badge {
+    position: absolute;
+    top: 6px;
+    right: 15px;
+    font-family: 'Inter', sans-serif;
+    font-size: 8pt;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 0.5px;
+}
+
+.camket-header {
+    display: grid;
+    grid-template-columns: 1.2fr 1.5fr 0.5fr;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.camket-header-left {
+    font-size: 10.5pt;
+    line-height: 1.25;
+}
+
+.camket-header-center {
+    text-align: center;
+    font-size: 10.5pt;
+    line-height: 1.25;
+}
+
+.camket-header-right {
+    text-align: right;
+    font-size: 10.5pt;
+    font-weight: bold;
+}
+
+.camket-title-box {
+    text-align: center;
+    margin: 8px 0 15px 0;
+}
+
+.camket-title {
+    font-size: 15pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1.25;
+    margin: 0;
+}
+
+.camket-section-title {
+    font-size: 11.5pt;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 4px;
+}
+
+.camket-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 5px;
+}
+
+.checkbox-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 10px;
+}
+
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.camket-sig-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.camket-sig-box {
+    text-align: center;
+    width: 7cm;
+}
+
+/* --------------------------------------------------------------------------
+   3.3. MẪU 4: CAM KẾT RA VIỆN TRÁI CHỈ ĐỊNH (#form-ravien .camket-page)
+   Chuẩn lề: Trái 1.5cm - Phải 1.0cm
+   -------------------------------------------------------------------------- */
+#form-ravien .camket-page {
+    padding: 0.6cm 1.0cm 0.6cm 1.5cm;
+}
+
+#form-ravien .camket-row {
+    margin-bottom: 3px;
+}
+
+#form-ravien p {
+    margin-top: 2px;
+    margin-bottom: 3px;
+    line-height: 1.3;
+}
+
+/* --------------------------------------------------------------------------
+   3.4. MẪU 5: PHIẾU ĐỀ NGHỊ TẠM ỨNG (.tamung-page)
+   Chuẩn lề: Trái 1.5cm - Phải 1.0cm - Dạng A4 in nửa trang trên
+   -------------------------------------------------------------------------- */
+.tamung-page {
+    width: 21cm;
+    min-height: 29.7cm;
+    padding: 0.8cm 1.0cm 0.8cm 1.5cm;
+    background-color: #fff;
+    margin: 0 auto;
+    font-family: "Times New Roman", "Tinos", Times, serif;
+    font-size: 11pt;
+    line-height: 1.35;
+    color: #000;
+    border: 1px solid #a9aaac;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.tu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.tu-header-left {
+    min-width: 5.2cm;
+    width: 5.2cm;
+    flex-shrink: 0;
+    text-align: left;
+    font-size: 10.5pt;
+    line-height: 1.35;
+}
+
+.tu-agency-name {
+    font-size: 10pt;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.tu-hospital-name {
+    font-size: 10.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 1px;
+    white-space: nowrap;
+}
+
+.tu-header-center {
+    text-align: center;
+    flex: 1;
+    padding: 0 4px;
+    margin-top: 2px;
+    min-width: 0;
+}
+
+.tu-title {
+    font-size: 15.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.tu-dept-container {
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.tu-dept-input {
+    width: 100%;
+    max-width: 350px;
+    min-width: 250px;
+    text-align: center;
+    font-size: 11pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 1px dotted #94a3b8;
+}
+
+.tu-header-right {
+    min-width: 4.6cm;
+    width: 4.6cm;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 10pt;
+    line-height: 1.3;
+}
+
+.tu-sophieu-line,
+.tu-maba-line {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 2px;
+    white-space: nowrap;
+}
+
+.tu-barcode-box {
+    margin-top: 2px;
+    display: flex;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+
+.tu-barcode-box svg {
+    max-width: 100%;
+    height: 38px;
+}
+
+.tu-body {
+    margin-top: 8px;
+    font-size: 11pt;
+    line-height: 1.4;
+}
+
+.tu-row {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 6px;
+}
+
+.tu-row-1 {
+    display: flex;
+    align-items: baseline;
+}
+
+.tu-row-2 {
+    display: flex;
+    align-items: baseline;
+}
+
+.tu-field {
+    display: flex;
+    align-items: baseline;
+}
+
+.tu-label {
+    white-space: nowrap;
+    margin-right: 6px;
+}
+
+.tu-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 14px;
+}
+
+.tu-footer-left {
+    flex: 1.2;
+    padding-right: 15px;
+}
+
+.tu-bottom-note {
+    font-size: 9.5pt;
+    font-style: italic;
+    line-height: 1.35;
+    color: #000;
+}
+
+.tu-footer-right {
+    flex: 1;
+    text-align: center;
+}
+
+.tu-date-line {
+    font-style: italic;
+    font-size: 11pt;
+    margin-bottom: 3px;
+}
+
+.tu-sig-role {
+    font-size: 11pt;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.tu-sig-gap {
+    height: 1.4cm;
+}
+
+.tu-sig-signer {
+    font-size: 11pt;
+    font-weight: bold;
+}
+
+.tu-divider-cut {
+    width: 21cm;
+    margin: 12px auto;
+    text-align: center;
+    position: relative;
+    border-top: 1px dashed #64748b;
+    color: #64748b;
+    font-size: 9pt;
+    font-style: italic;
+    padding-top: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   3.5. MẪU 6: PHIẾU THU TIỀN TẠM ỨNG (.phieuthu-page)
+   Chuẩn lề: Trái 1.5cm - Phải 1.0cm - Gọn gàng nửa trang A4
+   -------------------------------------------------------------------------- */
+.phieuthu-page {
+    width: 21cm;
+    min-height: 29.7cm;
+    padding: 0.8cm 1.0cm 0.8cm 1.5cm;
+    background-color: #fff;
+    margin: 0 auto;
+    font-family: "Times New Roman", "Tinos", Times, serif;
+    font-size: 11pt;
+    line-height: 1.35;
+    color: #000;
+    border: 1px solid #a9aaac;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.pth-header-grid {
+    display: grid;
+    grid-template-columns: 4.6cm 1fr 4.6cm;
+    grid-template-rows: auto auto;
+    column-gap: 6px;
+    row-gap: 6px;
+    align-items: start;
+    width: 100%;
+    margin-bottom: 6px;
+}
+
+.pth-agency-box {
+    text-align: left;
+    font-size: 9.5pt;
+    line-height: 1.3;
+}
+
+.pth-agency-name {
+    font-size: 9pt;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.pth-hospital-name {
+    font-size: 10pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 1px;
+    white-space: nowrap;
+}
+
+.pth-national-box {
+    text-align: center;
+    line-height: 1.3;
+}
+
+.pth-national-title {
+    font-size: 10pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+}
+
+.pth-national-motto {
+    font-size: 9.5pt;
+    font-weight: bold;
+    text-decoration: underline;
+    white-space: nowrap;
+    margin-top: 1px;
+}
+
+.pth-meta-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 10pt;
+    line-height: 1.25;
+}
+
+.pth-meta-row {
+    display: flex;
+    align-items: baseline;
+    width: 100%;
+    margin-bottom: 1px;
+}
+
+.pth-meta-label {
+    display: inline-block;
+    width: 48px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.pth-dummy-cell {
+    width: 100%;
+}
+
+.pth-title-container {
+    text-align: center;
+    margin-top: 2px;
+}
+
+.pth-title {
+    font-size: 15.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.pth-barcode-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.pth-barcode-box {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    cursor: pointer;
+    min-height: 26px;
+}
+
+.pth-barcode-box svg {
+    max-width: 100%;
+    height: 26px;
+}
+
+.pth-maba-row {
+    display: flex;
+    align-items: baseline;
+    width: 100%;
+    margin-top: 1px;
+    font-size: 10pt;
+}
+
+.pth-body {
+    margin-top: 6px;
+    font-size: 11pt;
+    line-height: 1.35;
+}
+
+.pth-row {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 5px;
+}
+
+.pth-field {
+    display: flex;
+    align-items: baseline;
+}
+
+.pth-label {
+    display: inline-block;
+    width: 155px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.pth-sub-label {
+    white-space: nowrap;
+    margin-left: 20px;
+    margin-right: 6px;
+    font-weight: normal;
+}
+
+.pth-unit {
+    white-space: nowrap;
+    margin-left: 4px;
+}
+
+.pth-footer {
+    margin-top: 12px;
+}
+
+.pth-date-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 6px;
+}
+
+.pth-date-line {
+    font-size: 11pt;
+    font-style: italic;
+}
+
+.pth-sig-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    text-align: center;
+}
+
+.pth-sig-col {
+    width: 6.8cm;
+}
+
+.pth-sig-title {
+    font-size: 11pt;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.pth-sig-subtitle {
+    font-size: 9.5pt;
+    font-style: italic;
+    margin-top: 1px;
+}
+
+.pth-sig-gap {
+    height: 1.3cm;
+}
+
+.pth-sig-signer {
+    font-size: 11pt;
+    font-weight: bold;
+}
+
+.pth-bottom-note {
+    margin-top: 18px;
+    font-size: 10.5pt;
+    font-weight: bold;
+    font-style: italic;
+    text-align: left;
+    line-height: 1.3;
+}
+
+
+/* ==========================================================================
+   4. CẤU HÌNH IN ĐẶC BIỆT (@MEDIA PRINT)
+   ĐỒNG BỘ QUY CHUẨN LỀ IN: LỀ TRÁI 1.5cm - LỀ PHẢI 1.0cm
+   ========================================================================== */
 @media print {
-    body {
-        background-color: #fff !important;
+    @page {
+        size: A4 portrait;
+        margin: 0;
+    }
+
+    body,
+    html {
+        background: #ffffff !important;
         margin: 0 !important;
         padding: 0 !important;
+        width: 21cm !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    /* Ẩn hoàn toàn Thanh Header, Sidebar, Panel thao tác bên phải */
+    .app-header,
+    .app-sidebar,
+    .app-right-panel,
+    .menu-fix,
+    #menu,
+    .break-page {
+        display: none !important;
+    }
+
+    .app-container,
+    .app-body,
+    .app-workspace,
+    .workspace-paper-wrapper {
+        display: block !important;
+        position: static !important;
+        width: 21cm !important;
+        height: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
     }
 
     .container {
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
         width: 21cm !important;
         box-shadow: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
     }
 
+    /* MẪU 1: BÌA BỆNH ÁN (Print: Trái 1.5cm - Phải 1.0cm) */
     .page {
         border: none !important;
-        padding: 1.2cm 1.2cm 1.2cm 1.8cm !important;
-        /* Lề khâu gáy bệnh án */
-        page-break-inside: avoid;
-        page-break-after: always;
+        padding: 1.0cm 1.0cm 1.0cm 1.5cm !important;
         width: 21cm !important;
         height: 29.7cm !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
     }
 
     .page-inner-border {
         border: 3px double #000 !important;
-        min-height: calc(29.7cm - 2.4cm) !important;
+        min-height: calc(29.7cm - 2.0cm) !important;
         padding: 1.2cm 0.8cm !important;
+    }
+
+    /* MẪU 2, 3: CAM KẾT TỪ CHỐI KCB & CHUYỂN VIỆN (Print: Trái 1.5cm - Phải 1.0cm) */
+    .camket-page {
+        border: none !important;
+        padding: 1.0cm 1.0cm 1.0cm 1.5cm !important;
+        width: 21cm !important;
+        min-height: 29.7cm !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid !important;
+    }
+
+    .camket-page+.camket-page {
+        page-break-before: always !important;
+        margin-top: 0 !important;
+    }
+
+    /* MẪU 4: CAM KẾT RA VIỆN TRÁI CHỈ ĐỊNH (Print: Trái 1.5cm - Phải 1.0cm) */
+    #form-ravien .camket-page {
+        padding: 0.6cm 1.0cm 0.6cm 1.5cm !important;
+    }
+
+    /* MẪU 5: PHIẾU ĐỀ NGHỊ TẠM ỨNG (Print: Trái 1.5cm - Phải 1.0cm - Dạng A4 in nửa trang trên) */
+    .tamung-page {
+        border: none !important;
+        padding: 0.8cm 1.0cm 0.8cm 1.5cm !important;
+        width: 21cm !important;
+        min-height: 29.7cm !important;
+        height: 29.7cm !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid !important;
+    }
+
+    /* MẪU 6: PHIẾU THU TIỀN TẠM ỨNG (Print: Trái 1.5cm - Phải 1.0cm) */
+    .phieuthu-page {
+        border: none !important;
+        padding: 0.8cm 1.0cm 0.8cm 1.5cm !important;
+        width: 21cm !important;
+        min-height: 29.7cm !important;
+        height: 29.7cm !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid !important;
+    }
+
+    .tu-divider-cut {
+        border-top: 1px dashed #000 !important;
+        color: #000 !important;
+        margin: 0.3cm auto !important;
+        padding-top: 2px !important;
+    }
+
+    .page-badge {
+        display: none !important;
+    }
+
+    .editable-input {
+        border-bottom: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+    }
+
+    .editable-select {
+        border-bottom: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+    }
+
+    .btn-calendar-trigger,
+    .date-picker-hidden,
+    .quick-khoa-select,
+    .btn-quick-pill,
+    .quick-money-group,
+    .no-print {
+        display: none !important;
+    }
+
+    .editable-textarea-short,
+    .editable-textarea,
+    .auto-resize-textarea {
+        border: none !important;
+        border-bottom: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        resize: none !important;
+    }
+
+    .editable-content-span {
+        border-bottom: none !important;
+        padding: 0 !important;
     }
 
     .tracking-card,
@@ -528,6 +1801,14 @@ input[type="hidden"] {
         border-bottom: 1px solid #000 !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
+    }
+
+    .editable-content-span:empty::before {
+        content: "" !important;
+    }
+
+    ::placeholder {
+        color: transparent !important;
     }
 
     .ky-chot {
